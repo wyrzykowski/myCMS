@@ -4,8 +4,8 @@ class Phonebar extends Component {
     state={
         phoneNumber: 'Kontakt: 692 622 745',
         style: {
-            backgroundColor:'#DDD',
-            color:'#666',
+            backgroundColor:'#28A745',
+            color:'#fff',
             marginBottom:'-1%',
             minHeight:'30px'
         }

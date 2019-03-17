@@ -2,65 +2,70 @@ import React, {Component} from 'react';
 
 class Footer extends Component {
     state={
+        width: null,
+        height: null,
 
         style:{
 
         },
 
-            footerContent:[],
+            content:false
     }
 
+
+    saveRef = (ref) => this.containerNode = ref
+
+    measure() {
+        const {clientWidth, clientHeight} = this.containerNode
+
+        this.setState({
+            width: clientWidth,
+            height: clientHeight,
+        })
+    }
 
     componentDidMount() {
-        const style={
-            backgroundColor: '#222',
-                minHeight: '100px',
-            color:'white',
-            paddingTop:'2%',
-        }
+        this.measure()
 
-        const footerContent=[
-            {
-            textLine:["TEL: 692 622 745","E-MAIL: fakfajzer@gmail.com","Dystrybutor: 504 165 188"],
-            type:'text'
-        },
-            {
-                textLine:[""],
-                type:'text'
+        fetch(`${window.apiUri}/footer`)
+          .then(res => res.json())
+          .then(contentArray => {
+                const content = contentArray[0].block[0].content;
+                this.setState({content})
 
-            },
-            {
-                textLine:["./image.png"],
-                type:'image'
-            },
-
-        ];
-
-
-        this.setState({style,footerContent});
-
+            }
+          ).catch(error => {
+            this.setState({ content: false })
+        })
     }
+
 
     render() {
 
+        const style={
+            backgroundColor: '#1A6A2C',
+            inHeight: '100px',
+
+            paddingTop:'2%',
+        }
 
         return (
-          <div className="container-fluid" style={this.state.style}>
-
+          <div  ref={this.saveRef} className="container-fluid" style={style}>
+              {   console.log(this.state.content)}
             <div className="row">
                 {
-
-                    this.state.footerContent.map(piece=>
-                    <div key={Math.random()} className={"col-sm-12 col-md-"+12/this.state.footerContent.length}>
+                    this.state.content ?
+                    this.state.content.map(piece=>
+                    <div key={Math.random()} className={"col-sm-12 col-md-3 col-xl-4"}>
                         {
-                            piece.type === "text" ?
-                            piece.textLine.map(line=>
-                                <p key={line}>{line}</p>
-                            ): <img src={piece.textLine}/>
+                            piece.type === "p" ?
+                            piece.text.map(line=>
+                                <p style={{color:"#fff"}}key={line}>{line}</p>
+                            ): <img src={piece.text}/>
                         }
                     </div>
 
-                    )
+                    ): ''
 
                 }
             </div>

@@ -1,85 +1,145 @@
 import React, {Component} from 'react';
-import { Slide } from 'react-slideshow-image';
+import update from 'immutability-helper';
 
 class Slideshow extends Component {
 
-    state={
+    state = {
+        currentImageHeight:1,
+        currentImageWidth:1,
         screenWidth: window.innerWidth,
-        style:{}
+        style:{},
+        content:false,
+        slideIndex:0,
+        first:true,
+        interval:3000,
+        speed:'0.6s',
+        slides : false
     }
 
-
+    constructor(props){
+        super(props)
+        this.image = React.createRef();
+    }
 
     componentDidMount() {
+        //Fetch Silder data
+        fetch(`${window.apiUri}/home`)
+          .then(res => res.json())
+          .then(contentArray => {
+                const content = contentArray[0];
+                this.setState({ content })
+              var slides=[];
+              content.block[0].content.map(slide=>{
+                  slides.push(
+                    {
+                        slide: `${slide.text}`,
+                        style: { opacity: '0' },
+                        className: "imageHolder"
+                    }
+              )
+              })
+                this.setState({slides});
+              this.setTimer(); //Set timer when fatched data
+            },
+          ).catch(error => {
+            this.setState({ content: false })
+        })
 
-        //getting image
+        //To set new window.innerWidth when user resize window
         window.addEventListener("resize", this.updateDimensions);
-        const style={
-            slideStyle: {
-                width: this.state.screenWidth,
-                height: this.state.screenWidth / 2.8,
-                backgroundRepeat: 'round'
-            }
-        }
-        this.setState({style})
+        //Run initialization of slider
+
     }
+
+    //To set new window.innerWidth when user resize window
     updateDimensions=() => {
-        console.log("UDPATE", window.innerWidth)
         var screenWidth = window.innerWidth;
-        var height = screenWidth / 2.8;
-        const slideStyle = {
-            width: screenWidth,
-            height: height,
-            backgroundRepeat: 'round',
-        }
-        this.setState({screenWidth,slideStyle });
+        this.setState({screenWidth});
     }
 
     componentWillUnmount() {
         window.removeEventListener("resize", this.updateDimensions);
     }
 
+//Slider methods
+    plusSlides(n){ //n actual slide
+        this.moveSlide(this.state.slideIndex+n);
+        console.log("next")
+    }
+
+    moveSlide(n){
+        var i;
+        var current,next;
+        var moveSlideAnimClass={
+            forCurrent:"",
+            forNext:""
+        };
+
+        if(n>this.state.slideIndex) {
+            if(n >= this.state.slides.length){n=0;}//if it's the last image+1
+            moveSlideAnimClass.forCurrent="moveLeftCurrentSlide";
+            moveSlideAnimClass.forNext="moveLeftNextSlide";
+        }
+
+        if(n!=this.state.slideIndex){
+            next = n;
+            current=this.state.slideIndex;
+            for (i = 0; i < this.state.slides.length; i++) {
+                this.setState({
+                  slides: update(this.state.slides,{[i]:{style:{$set:{opacity:"0"}},className:{$set:"imageHolder"}}})
+                })
+            }
+                this.setState({
+                    slides: update(this.state.slides,{[current]:{ className:{$set:`${this.state.slides[current].className}  ${moveSlideAnimClass.forCurrent}` }}}),
+                    slideIndex: n
+                })
+                this.setState({
+                    slides: update(this.state.slides,{[next]:{ className:{$set:`${this.state.slides[next].className} " ${moveSlideAnimClass.forNext}` }}}),
+                    first:false
+                })
+        }
+
+    }
+//Initial slide_show
+    setTimer=()=>{
+        var img = new Image(); // Get width and height of original image
+        if(this.state.slides) {
+            img.src = this.state.slides[0].slide;// assume every image have same size
+            var getImageHeight = (currentImageHeight, currentImageWidth) => {
+                this.setState({ currentImageHeight, currentImageWidth })
+            }
+        }
+
+        img.onload =function(){
+            const currentImageHeight=this.height;
+            const currentImageWidth=this.width;
+            getImageHeight(currentImageHeight,currentImageWidth);
+        }
+        //set time between slide change
+       var timer = setInterval(()=>{
+            this.plusSlides(1);
+        },this.state.interval)
+    }
 
 
     render() {
-        const slideImages = [
-            './images/slajd1.png',
-            './images/slajd2.png',
-            './images/slajd3.png',
-            './images/slajd4.png',
-        ];
-
-        const properties = {
-            duration: 3000,
-            transitionDuration: 700,
-            infinite: true,
-            indicators: false,
-            arrows: false
-        }
         return (
-    <div style={{backgroundColor:"#EEE", minHeight:this.state.screenWidth/2.8}}>
-        <Slide {...properties}>
-            <div className="each-slide" >
-                <div style={{'backgroundImage': `url(${slideImages[0]})`,...this.state.style.slideStyle}}>
-                </div>
-            </div>
-            <div className="each-slide">
-                <div style={{'backgroundImage': `url(${slideImages[1]})`,...this.state.style.slideStyle}}>
-                </div>
-            </div>
-            <div className="each-slide">
-                <div style={{'backgroundImage': `url(${slideImages[2]})`,...this.state.style.slideStyle}}>
-                </div>
-            </div>
-            <div className="each-slide">
-                <div style={{'backgroundImage': `url(${slideImages[3]})`,...this.state.style.slideStyle}}>
-                </div>
-            </div>
-        </Slide>
 
-    </div>
-
-
+        <div className="galleryContainer"  style={ {width:"100%",height:(this.state.screenWidth/this.state.currentImageWidth)*this.state.currentImageHeight,margin:0,padding:0}}>
+            {this.state.slides ?
+              <div className="slideShowContainer" >
+                  {
+                      this.state.slides.map((slide) =>
+                        <div key={slide.slide} className={`${slide.className}`}
+                             style={slide===this.state.slides[0] ? { opacity: 1,animationDuration:this.state.speed}  : { opacity: 0,animationDuration:this.state.speed }}>
+                            <img ref={this.image} src={slide.slide} />
+                        </div>
+                      )
+                  }
+              </div>
+              : ''
+            }
+        </div>
         );
     }
 }

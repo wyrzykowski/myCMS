@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
+
 class Nav extends Component {
     state={
         navName:"",
@@ -8,30 +10,10 @@ class Nav extends Component {
 
     componentDidMount() {
         const navName = this.state.navName + "Fakfajzer";
-        const tabs = [
-            {
-             name:'Strona główna',
-             link:'/'
-            },
-            {
-                name:'O nas',
-                link:'/about'
-            },
-            {
-                name:'Galeria',
-                link:'/gallery'
-            },
-            {
-                name:'Oferta',
-                link:'/offer'
-            },
-            {
-                name:'Kontakt',
-                link:'/contact'
-            }
+        fetch(`${window.apiUri}/nav`)
+          .then(res => res.json())
+          .then(tabs => this.setState({tabs}))
 
-        ]
-        this.setState({navName,tabs})
 
     }
 
@@ -41,9 +23,8 @@ class Nav extends Component {
 
 
     render() {
-
         return (
-            <div>
+            <div id="main-nav">
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <Link to="/" className="navbar-brand" >{this.state.navName}</Link>
 
@@ -57,7 +38,7 @@ class Nav extends Component {
 
                         <ul className="navbar-nav mr-auto">
                             {
-                                this.state.tabs.map(tab =>
+                                this.props.tabs.map(tab =>
                                     <li  key={tab.name} className="nav-item ">
                                         <Link key={tab.name+'href'}  className="nav-link" to={tab.link}>{tab.name} <span
                                             className="sr-only">(current)</span></Link>
