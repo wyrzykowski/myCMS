@@ -5,16 +5,21 @@ import App from './App';
 import Dashboard from './dashboard/dashboard'
 
 import * as serviceWorker from './serviceWorker';
-window.apiUri="http://localhost:3001/fakfajzer";//set Api Uri to be global and accessible by windows object
-ReactDOM.render(
 
+window.apiUri="http://localhost:3001/fakfajzer";//set Api Uri to be global and accessible by windows object
+
+ReactDOM.render(
+<div>
   <BrowserRouter>
+
     <Switch>
+
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/" component={App} />
 
     </Switch>
   </BrowserRouter>
+</div>
   , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

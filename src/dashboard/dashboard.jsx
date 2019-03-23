@@ -12,6 +12,8 @@ import EditGallery from "./edit-content/EditGallery";
 import EditLandingPage from "./edit-content/EditLandingPage";
 import EditOffer from "./edit-content/EditOffer";
 import MainSettings from "./main-settings";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 class Dashboard extends Component {
 
   state={
@@ -60,10 +62,11 @@ const contents = [
 
             </main>
           </div>
+
         </div>
 
 
-
+<ToastContainer/>
       </div>
 
     );

@@ -7,8 +7,12 @@ axios.defaults.baseURL = "http://localhost:3001/fakfajzer"; //process.env.REACT_
 
 
 //This will execute when got response with an error
-axios.interceptors.response.use(null, error => {
-  toast.error("Can't connect to API");
+axios.interceptors.response.use((response) => {
+  // Do something with response data
+  return response;
+}, (error) => {
+
+  // Do something with response error
   const expectedError =
     error.response &&
     error.response.status >= 400 &&
@@ -16,10 +20,13 @@ axios.interceptors.response.use(null, error => {
 
   if (!expectedError) {
     // logger.log(error);
-    toast.error("An unexpected error occured.");
+    toast.error("An unexpected error occured with connection.");
+  }else{
+    toast.error("An error occured.");
   }
   return Promise.reject(error);
 });
+
 
 // function setJwt(jwt) {
 //   axios.defaults.headers.common["x-auth-token"] = jwt;
@@ -28,6 +35,7 @@ axios.interceptors.response.use(null, error => {
 export default {
   get: axios.get,
   post: axios.post,
+  patch: axios.patch,
   put: axios.put,
   delete: axios.delete,
   // setJwt

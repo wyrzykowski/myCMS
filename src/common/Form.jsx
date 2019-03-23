@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Joi from "joi-browser";
 import Select from "./Select.jsx";
 import Input from "./Input";
+import Textarea from "./Textarea";
 
 class Form extends Component {
   state = {
@@ -45,16 +46,37 @@ class Form extends Component {
     // data destructuring bo uzywam tylko jednego
     const data = { ...this.state.data };
     data[input.name] = input.value;
+    console.log("input value",input.value)
     this.setState({ data, errors });
   };
 
   renderButton(label) {
     return (
-      <button disabled={this.validate()} className="btn btn-primary">
+      <button  ref="btn"  disabled={this.validate()} className="btn btn-primary">
         {label}
       </button>
     );
   }
+
+  renderFileButton(name,label) {
+    return (
+      <div style={{marginBottom:"5vh"}}>
+
+        <p>{name}</p>
+
+        <div>
+          <div className="custom-file">
+            <input  onChange={(e)=>this.onFileButtonChange(e)} type="file" className="btn custom-file-input" id="inputGroupFile03"/>
+              <label className="custom-file-label" htmlFor="inputGroupFile03">Choose file</label>
+          </div>
+        </div>
+
+
+
+      </div>
+    );
+  }
+
 
   renderSelect(name, label, options) {
     const { data, errors } = this.state;
@@ -83,6 +105,20 @@ class Form extends Component {
       />
     );
   }
+  renderTextarea(name, label, type) {
+    const { data, errors } = this.state;
+    return (
+      <Textarea
+        type={type}
+        name={name}
+        value={data[name]}
+        label={label}
+        onChange={this.handleChange}
+        error={errors[name]}
+      />
+    );
+  }
+
 }
 
 export default Form;
