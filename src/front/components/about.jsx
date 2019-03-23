@@ -1,25 +1,21 @@
 import React, { Component } from "react";
+import { getSubpage } from "../../services/subpageService";
 
 class About extends Component {
 state={
   content:false,
   background:false
 };
-componentDidMount() {
- fetch(`${window.apiUri}/onas`)
-   .then(res=>res.json())
-   .then(contentArray=>{
-     const content  = contentArray[0].block[0].content;
-     const background = contentArray[0].background;
-     this.setState({content,background})
-   }).catch(error=>{
-     this.setState({content: false})
- })
+async componentDidMount() {
+  const {data} = await getSubpage('onas');
+  var content;
+  if( data.length===0) content = false; //if can't fetch data set false to avoid error occur
+  else content = data[0];
+  this.setState({content:content.block[0].content,background:content.background});
+
 }
 
-
   render() {
-  console.log(this.state.background)
 const style={
   backgroundImage: `url(${this.state.background})`,
   minHeight:window.innerHeight-this.props.height

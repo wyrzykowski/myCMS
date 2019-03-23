@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { getSubpage } from "../../services/subpageService";
 
 class Contact extends Component {
   state={
@@ -6,16 +7,12 @@ class Contact extends Component {
     background:false
   };
 
-  componentDidMount() {
-    fetch(`${window.apiUri}/kontakt`)
-      .then(res=>res.json())
-      .then(contentArray=>{
-        const content  = contentArray[0].block[0].content;
-        const background = contentArray[0].background;
-        this.setState({content,background})
-      }).catch(error=>{
-      this.setState({content: false})
-    })
+  async componentDidMount() {
+    const {data} = await getSubpage('kontakt');
+    var content;
+    if( data.length===0) content = false; //if can't fetch data set false to avoid error occur
+    else content = data[0];
+    this.setState({content:content.block[0].content,background:content.background});
   }
   render() {
     const style={
@@ -33,13 +30,13 @@ class Contact extends Component {
           {
            this.state.content ? this.state.content.map(content=>{
               switch (content.type){
-                case 'h1': return <h1 className="h1 text-center  mb-4 mt-4">{content.text}</h1>
+                case 'h1': return <h1 key={content.text+Math.random()} className="h1 text-center  mb-4 mt-4">{content.text}</h1>
                 break;
-                case 'h2': return <h2 className="h2 text-center ">{content.text}</h2>
+                case 'h2': return <h2 key={content.text+Math.random()} className="h2 text-center ">{content.text}</h2>
                   break;
-                case 'h3': return <h3 className="h3 text-center ">{content.text}</h3>
+                case 'h3': return <h3 key={content.text+Math.random()} className="h3 text-center ">{content.text}</h3>
                   break;
-                case 'h4': return <h4 className="h4 text-center ">{content.text}</h4>
+                case 'h4': return <h4 key={content.text+Math.random()} className="h4 text-center ">{content.text}</h4>
                   break;
               }
             }) : ''

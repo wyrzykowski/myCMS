@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class EditContent extends Component {
+class EditContentStyle extends Component {
   render() {
     return (
       <div>
@@ -10,4 +10,4 @@ class EditContent extends Component {
   }
 }
 
-export default EditContent;
+export default EditContentStyle;

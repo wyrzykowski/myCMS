@@ -11,6 +11,7 @@ import Offer from './front/components/offer';
 import About from './front/components/about';
 import Gallery from './front/components/gallery';
 import NotFound404 from './front/components/not-found-404'
+import { getSubpage } from "./services/subpageService";
 class App extends Component {
 
   state={
@@ -18,16 +19,10 @@ class App extends Component {
     navName:''
 
   }
-  componentDidMount() {
-    const navName = this.state.navName + "Fakfajzer";
-    fetch("http://localhost:3001/fakfajzer/nav")
-      .then(res => res.json())
-      .then(tabs =>{
-
-        this.setState({tabs, navName});
-      });
+  async componentDidMount() {
+    const {data} = await getSubpage('nav/main_nav');
+    this.setState({tabs: data[0].content, navName: data[0].navbar_label});
   }
-
 
   style={
   constComponentHeight: 0,
@@ -55,7 +50,7 @@ if(this.setHeight===false) { //I have to force that setState can be setting alte
     return (
 
      <div>
-         <Header tabs={this.state.tabs} onGetHeight={this.handleHeaderHeight} />
+         <Header tabs={this.state.tabs } navName={this.state.navName} onGetHeight={this.handleHeaderHeight} />
          <Switch>
            <Route path="/contact" render={(props)=><Contact height={this.style.constComponentHeight} {...props} />}/>
            <Route path="/offer" render={(props)=><Offer height={this.style.constComponentHeight} {...props} />}/>
@@ -63,8 +58,8 @@ if(this.setHeight===false) { //I have to force that setState can be setting alte
            <Route path="/gallery" render={(props)=><Gallery height={this.style.constComponentHeight} {...props} />}/>
            <Route exact path="/home" render={(props)=><LandingPage height={this.style.constComponentHeight} {...props} />}/>
            <Route path="/not-found" render={props=><NotFound404 height={this.style.constComponentHeight} {...props}/> } />
-           <Redirect from="/" to="home"/>
-           <Redirect to="/not-found" />
+           <Redirect exact from="/" to="home"/>
+           <Redirect  to="/not-found" />
 
 
          </Switch>

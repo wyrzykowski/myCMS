@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-
-
 import ShowImage from "./show-image";
 import GalleryGrid from "./gallery-grid";
 
 class GalleryMain extends Component {
+
   state={
     images:[],
     show:false,
@@ -15,16 +14,12 @@ class GalleryMain extends Component {
     alt:"alt example"
   }
 
-  componentDidMount() {
-    fetch(`${window.apiUri}/galeria`)
-      .then(res=>res.json())
-      .then(contentArray=>{
-        const content = contentArray[0];
-        console.log(content.block[0].content);
-        this.setState({images:content.block[0].content})
-      }).catch(e=>
-      this.setState({images:false})
-    )
+
+ componentDidMount() {
+ this.props.getImages((images)=>{
+   this.setState({images})
+ });
+   this.setState({images:this.props.images})
   }
 
 
@@ -68,11 +63,12 @@ class GalleryMain extends Component {
       this.setState({showImage,showForward,showBack})
     }
   }
-
   render() {
-    console.log("mam",this.state.images)
+
  return (
+
       <div>
+
         <GalleryGrid onClick={this.handleClick} images={this.state.images}/>
         { this.state.show ? <ShowImage alt ={this.state.images.type} showForward={this.state.showForward} showBack={this.state.showBack} imageBack={this.handleBack} imageForward={this.handleForward} imageClose={this.handleClose} image={this.state.showImage.text}/> : ''}
       </div>

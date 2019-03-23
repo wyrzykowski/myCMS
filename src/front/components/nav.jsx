@@ -1,32 +1,20 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import {getSubpage} from './../../services/subpageService'
 import axios from 'axios';
+import http from "../../services/httpService";
 
 class Nav extends Component {
     state={
         navName:"",
-        tabs:[]
+        tabs:false
     }
-
-    componentDidMount() {
-        const navName = this.state.navName + "Fakfajzer";
-        fetch(`${window.apiUri}/nav`)
-          .then(res => res.json())
-          .then(tabs => this.setState({tabs}))
-
-
-    }
-
-
-
-
-
 
     render() {
         return (
             <div id="main-nav">
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <Link to="/" className="navbar-brand" >{this.state.navName}</Link>
+                    <Link to="/" className="navbar-brand" >{this.props.navName}</Link>
 
                     <button className="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"

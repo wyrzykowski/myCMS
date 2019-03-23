@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import update from 'immutability-helper';
+import { getSubpage } from "../../../services/subpageService";
 
 class Slideshow extends Component {
 
@@ -21,29 +22,28 @@ class Slideshow extends Component {
         this.image = React.createRef();
     }
 
-    componentDidMount() {
-        //Fetch Silder data
-        fetch(`${window.apiUri}/home`)
-          .then(res => res.json())
-          .then(contentArray => {
-                const content = contentArray[0];
-                this.setState({ content })
-              var slides=[];
-              content.block[0].content.map(slide=>{
-                  slides.push(
-                    {
-                        slide: `${slide.text}`,
-                        style: { opacity: '0' },
-                        className: "imageHolder"
-                    }
-              )
-              })
-                this.setState({slides});
-              this.setTimer(); //Set timer when fatched data
-            },
-          ).catch(error => {
-            this.setState({ content: false })
+    async componentDidMount() {
+
+
+        const {data} = await getSubpage('home');
+        var content;
+        if( data.length===0) content = false; //if can't fetch data set false to avoid error occur
+        else content = data[0];
+        this.setState({content});
+        var slides=[];
+
+        content.block[0].content.map(slide=>{
+            slides.push(
+              {
+                  slide: `${slide.text}`,
+                  style: { opacity: '0' },
+                  className: "imageHolder"
+              }
+            )
         })
+        this.setState({slides});
+        this.setTimer();
+
 
         //To set new window.innerWidth when user resize window
         window.addEventListener("resize", this.updateDimensions);
@@ -64,7 +64,6 @@ class Slideshow extends Component {
 //Slider methods
     plusSlides(n){ //n actual slide
         this.moveSlide(this.state.slideIndex+n);
-        console.log("next")
     }
 
     moveSlide(n){

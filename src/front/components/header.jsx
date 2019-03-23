@@ -25,10 +25,6 @@ class Header extends Component {
 
   componentDidMount() {
     this.measure();
-    const navName = this.state.navName + "Fakfajzer";
-    fetch("http://localhost:3001/fakfajzer/nav")
-      .then(res => res.json())
-      .then(tabs => this.setState({tabs}))
   }
 
 
@@ -42,7 +38,7 @@ class Header extends Component {
         return (
             <div   ref={this.saveRef}>
                 <Phonebar/>
-                <Nav tabs={this.props.tabs} nab/>
+                <Nav tabs={this.props.tabs} navName={this.props.navName} />
             </div>
         );
     }

@@ -1,20 +1,20 @@
 import React, { Component } from "react";
 import GalleryMain from "./gallery_components/gallery-main"
+import { getSubpage } from "../../services/subpageService";
 class Gallery extends Component {
   state={
     images:[]
   }
-  componentDidMount() {
-    fetch(`${window.apiUri}/galeria`)
-      .then(res=>res.json())
-      .then(contentArray=>{
-        const content = contentArray[0];
-        console.log(content);
-      }).catch(e=>{
-        this.setState({images:false})
-      }
-      )
 
+
+  async getImages(callback) {
+    const {data} = await getSubpage('galeria');
+    var content;
+    if( data.length===0) content = false; //if can't fetch data set false to avoid error occur
+    else{
+      content = data[0];
+      callback(content.block[0].content)
+    }
 
   }
 
@@ -22,10 +22,9 @@ class Gallery extends Component {
     return (
       <div  style={{minHeight:window.innerHeight-this.props.height}}>
         <h2 className="h1 text-center mt-4">Galeria</h2>
-        <GalleryMain/>
+        <GalleryMain getImages = {this.getImages} images={this.state.images}/>
       </div>
     )
   }
 }
-
 export default Gallery;

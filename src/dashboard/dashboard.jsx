@@ -1,11 +1,17 @@
 import React, { Component } from "react";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import Nav from './nav'
-import EditContent from './edit-content'
+import EditContentStyle from './edit-content.-style'
 import LeftNav from './left-nav'
 import EditTextStyles from './edit-text-styles';
 import EditColors from './edit-colors';
 import App from "../App";
+import EditAbout from "./edit-content/EditAbout";
+import EditContact from "./edit-content/EditContact";
+import EditGallery from "./edit-content/EditGallery";
+import EditLandingPage from "./edit-content/EditLandingPage";
+import EditOffer from "./edit-content/EditOffer";
+import MainSettings from "./main-settings";
 class Dashboard extends Component {
 
   state={
@@ -41,9 +47,15 @@ const contents = [
               </div>
 
               <Switch>
-                <Route path="/dashboard/edit-content" component={EditContent}/>
+                <Route path="/dashboard/edit-content" component={EditContentStyle}/>
                 <Route path="/dashboard/edit-colors" component={EditColors}/>
                 <Route path="/dashboard/edit-text-styles" component={EditTextStyles}/>
+                <Route path="/dashboard/edit-about" component={EditAbout}/>
+                <Route path="/dashboard/edit-contact" component={EditContact}/>
+                <Route path="/dashboard/edit-gallery" component={EditGallery}/>
+                <Route path="/dashboard/edit-landing-page" component={EditLandingPage}/>
+                <Route path="/dashboard/edit-offer" component={EditOffer}/>
+                <Route path="/dashboard/main-settings" component={MainSettings}/>
               </Switch>
 
             </main>

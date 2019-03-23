@@ -51,7 +51,7 @@ class Footer extends Component {
 
         return (
           <div  ref={this.saveRef} className="container-fluid" style={style}>
-              {   console.log(this.state.content)}
+
             <div className="row">
                 {
                     this.state.content ?

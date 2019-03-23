@@ -9,11 +9,11 @@ class LeftNav extends Component {
   componentDidMount() {
 
     const contents = [
-      'Strona główna',
-      'O nas',
-      'Galeria',
-      'Oferta',
-      'Kontakt'
+      {name:'Strona główna', link:"edit-landing-page"},
+      {name:'O nas', link:"edit-about"},
+      {name:'Galeria', link:"edit-gallery"},
+      {name:'Oferta', link:"edit-offer"},
+      {name:'Kontakt', link:"edit-contact"}
     ]
     this.setState({contents})
   }
@@ -25,12 +25,26 @@ class LeftNav extends Component {
         <nav className="">
           <div className="sidebar-sticky">
             <ul className="nav flex-column">
-
               <h6
+                className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span> Ustawienia strony:</span>
+                <a className="d-flex align-items-center text-muted" href="#">
+
+                </a>
+              </h6>
+              <li className="nav-item">
+                <Link className="nav-link" to="/dashboard/main-settings">
+                  Główne ustawienia
+                </Link>
+              </li>
+            </ul>
+
+            <ul className="nav flex-column">
+
+            <h6
                 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                 <span> Wygląd:</span>
                 <a className="d-flex align-items-center text-muted" href="#">
-                  <span data-feather="plus-circle"></span>
                 </a>
               </h6>
               <li className="nav-item">
@@ -56,8 +70,8 @@ class LeftNav extends Component {
               {
                 this.state.contents.map(content=>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/dashboard/edit-content">
-                      {content}
+                    <Link className="nav-link" to={`/dashboard/${content.link}`}>
+                      {content.name}
                     </Link>
                   </li>
                 )

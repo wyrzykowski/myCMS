@@ -1,21 +1,18 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import { getSubpage } from "../../services/subpageService";
 
 class Offer extends Component {
   state={
     content:[],
     background: false
   };
-  componentDidMount() {
-    fetch(`${window.apiUri}/oferta`)
-      .then(res => res.json())
-      .then(pageArray => {
-        var content = pageArray[0].block[0].content;//[pageArray - document mongoDb].[content[0] - just one block content on site]
-        const background = pageArray[0].background;
-        this.setState({content,background})
-    }).catch(error=> {
-      this.setState({content:false});
-    })
+  async componentDidMount() {
+    const {data} = await getSubpage('oferta');
+    var content;
+    if( data.length===0) content = false; //if can't fetch data set false to avoid error occur
+    else content = data[0];
+    this.setState({content:content.block[0].content,background:content.background});
   }
 
   render() {
