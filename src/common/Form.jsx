@@ -50,9 +50,19 @@ class Form extends Component {
     this.setState({ data, errors });
   };
 
+  onFileButtonChange(e){
+    let files = e.target.files;
+    let reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = (e)=> {
+      console.warn("img data", e.target.result);
+      this.setState({imageFile:e.target.result});
+    }
+  }
+
   renderButton(label) {
     return (
-      <button  ref="btn"  disabled={this.validate()} className="btn btn-primary">
+      <button  ref="btn"  disabled={this.validate()} className="btn btn-primary mb-4">
         {label}
       </button>
     );
@@ -60,7 +70,7 @@ class Form extends Component {
 
   renderFileButton(name,label) {
     return (
-      <div style={{marginBottom:"5vh"}}>
+      <div style={{marginBottom:"3vh"}}>
 
         <p>{name}</p>
 
@@ -69,6 +79,15 @@ class Form extends Component {
             <input  onChange={(e)=>this.onFileButtonChange(e)} type="file" className="btn custom-file-input" id="inputGroupFile03"/>
               <label className="custom-file-label" htmlFor="inputGroupFile03">Choose file</label>
           </div>
+
+          {this.state.imageFile &&
+          <div className="border border-light">
+
+            <img  style={{ width: "50%", margin: "0% 25% 0% 25%" }}
+                 src={this.state.imageFile} alt="Red dot"/>
+          </div>
+          }
+
         </div>
 
 

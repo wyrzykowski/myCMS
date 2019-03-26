@@ -3,8 +3,10 @@ import Joi from "joi-browser";
 import Form from "./../../common/Form"
 import { getSubpage, saveSubpage } from "../../services/subpageService";
 import { toast } from "react-toastify";
+import { sendImage } from "../../services/imageService";
 class EditAbout extends Form {
   state = {
+    imageFile:false,
     pageId:false,
     data: {
       h1: "",
@@ -37,8 +39,18 @@ async componentDidMount() {
   await this.populateContent();
 }
 
-  doSubmit = async () => {
-console.log(this.state.pageId)
+  sendImageToApi(){
+    var fileData = this.state.imageFile;
+    //here send file to API
+    const url = "about";
+
+    const formData = { file: fileData }
+    sendImage(url, formData)
+  }
+
+
+
+doSubmit = async () => {
   const dataToSave= {
     _id:this.state.pageId,
     block: [
@@ -57,6 +69,8 @@ console.log(this.state.pageId)
 
       }
     ]
+
+
   }
     this.refs.btn.setAttribute("disabled", "disabled"); //prevent mutiple time button press
     await saveSubpage(dataToSave,"onas").then(
@@ -65,18 +79,16 @@ console.log(this.state.pageId)
 
     this.refs.btn.removeAttribute("disabled");
    // this.props.history.push("/edit-page");
+  this.sendImageToApi();
   };
-  onFileButtonChange(e){
 
-    let files = e.target.files;
-    let reader = new FileReader();
-    reader.readAsDataURL(files[0]);
 
-    reader.onload = (e)=>{
-      //here send file to API
-      console.warn("img data", e.target.result)
-    }
-  }
+
+
+
+
+
+
   render() {
     return (
       <div>
@@ -87,6 +99,7 @@ console.log(this.state.pageId)
           {this.renderFileButton("Backgorund Image:","Upload Image")}
           {this.renderButton("Save")}
         </form>
+
 
       </div>
     );

@@ -1,5 +1,4 @@
 import http from "./httpService";
-const urlAppName = "fakfajzer";//ZMIENIC TO NA DYNAMICZNE POBIERANIE TEGO!!!!!
 export function getSubpage(subpage) {
   return http.get(`/${subpage}`);
 }
