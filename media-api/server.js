@@ -48,8 +48,8 @@ var filename = req.params.filename;
       res.send("file received");
       //console.log("received ",res)//
 
-  var filepath = base64Img.imgSync(req.body.file, './../my-cms/public/backgrounds', filename);
-    convertToJpeg(`./../my-cms/public/backgrounds`,filename)
+  var filepath = base64Img.imgSync(req.body.file, './../public/backgrounds', filename);
+    convertToJpeg('./../public/backgrounds',`./../public/backgrounds`,filename)
 
 
 

@@ -45,7 +45,10 @@ async componentDidMount() {
     const url = "about";
 
     const formData = { file: fileData }
-    sendImage(url, formData)
+    try {
+      sendImage(url, formData);
+    }catch(e){
+    console.log(e)}
   }
 
 
