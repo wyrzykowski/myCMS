@@ -47,9 +47,13 @@ app.post(`/file/:filename`,(req,res)=>{
 var filename = req.params.filename;
       res.send("file received");
       //console.log("received ",res)//
-
-  var filepath = base64Img.imgSync(req.body.file, './../public/backgrounds', filename);
-    convertToJpeg('./../public/backgrounds',`./../public/backgrounds`,filename)
+  var filepath;
+  try {
+    filepath = base64Img.imgSync(req.body.file, './../public/backgrounds', filename);
+    convertToJpeg('./../public/backgrounds', filename)
+  }catch(e){
+    console.log("User not include picture")
+  }
 
 
 
