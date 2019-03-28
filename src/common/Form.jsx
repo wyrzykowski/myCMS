@@ -178,8 +178,8 @@ renderImage.then(()=>{
           {
             this.state.data.images ? this.state.data.images.map( image => (
 
-                <div style={{height:"15vh",position:"static"}} className="border border-light">
-                  <img style={{ margin: "1% 1% 1% 1%",left:"10px",float:"left" }}
+                <div style={{width: "100%",backgroundColor:"red"}} className="border border-light">
+                  <img className={"img-fluid"} style={{height:"10%", width: "20%", margin: "1% 1% 1% 1%",left:"10px",float:"left" }}
                        src={__dirname + image.text} alt="Red dot"/>
                 </div>
 
@@ -188,6 +188,8 @@ renderImage.then(()=>{
           }
 
           <div style={{clear:"both"}}></div>
+
+
         </div>
       </div>
     );
