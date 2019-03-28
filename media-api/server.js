@@ -54,9 +54,6 @@ var filename = req.params.filename;
   }catch(e){
     console.log("User not include picture")
   }
-
-
-
 })
 
 app.listen(port,()=>{

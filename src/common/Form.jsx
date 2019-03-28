@@ -6,10 +6,20 @@ import Textarea from "./Textarea";
 
 class Form extends Component {
   state = {
+
     data: {},
-    errors: {}
+    errors: {},
+
   };
 
+  constructor() {
+    super();
+
+  }
+
+  getState=()=>{
+    return this.state;
+  }
   validate = () => {
     //to sprawdza po przycisniecu submit
     const options = { abortEarly: false };
@@ -49,7 +59,7 @@ class Form extends Component {
     console.log("input value",input.value)
     this.setState({ data, errors });
   };
-
+//For single file
   onFileButtonChange(e){
     let files = e.target.files;
     let reader = new FileReader();
@@ -59,6 +69,55 @@ class Form extends Component {
       this.setState({imageFile:e.target.result});
     }
   }
+
+
+
+//For multiple files
+ onFilesButtonChange(e){
+    var imageFiles =this.state.imageFiles;
+
+
+    //var newcos = [...this.state.imageFiles,1,2,3];
+
+
+    //here map and foreach not working!
+  for(let i = 0;i<e.target.files.length;i++){
+    const file = e.target.files[i];
+      var renderImage = new Promise(function(resolve,reject){
+        if (file && file.type.match('image.*')) {
+          let reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onloadend =  function(e) {
+            console.log("kurwa dodaje")
+            imageFiles = [...imageFiles, e.target.result];
+            resolve("rendered successfully");
+          }
+        } else {
+        reject("wrong file type!")
+        }
+      })
+
+renderImage.then(()=>{
+  console.log("tu",imageFiles)
+  this.setState({imageFiles})
+
+  console.log(this.state.imageFiles)
+})
+
+
+    }
+
+
+
+
+
+ // files.forEach( file=>{
+ //    {
+
+ //    }
+ //  })
+  }
+
 
   renderButton(label) {
     return (
@@ -71,15 +130,12 @@ class Form extends Component {
   renderFileButton(name,label) {
     return (
       <div style={{marginBottom:"3vh"}}>
-
         <p>{name}</p>
-
         <div>
           <div className="custom-file">
             <input  onChange={(e)=>this.onFileButtonChange(e)} type="file" className="btn custom-file-input" id="inputGroupFile03"/>
-              <label className="custom-file-label" htmlFor="inputGroupFile03">Choose file</label>
+              <label className="custom-file-label" htmlFor="inputGroupFile03">{label}</label>
           </div>
-
           {this.state.imageFile &&
           <div className="border border-light">
 
@@ -87,11 +143,52 @@ class Form extends Component {
                  src={this.state.imageFile} alt="Red dot"/>
           </div>
           }
-
         </div>
+      </div>
+    );
+  }
 
 
+  renderFilesButton(name,label) {
+    console.log(this.state.imageFiles)
+    return (
+      <div style={{marginBottom:"3vh"}}>
+        <p>{name}</p>
+        <div>
+          <div className="custom-file">
 
+            <input  onChange={(e)=>this.onFilesButtonChange(e)} type="file" className="btn custom-file-input" id="inputGroupFile03" multiple/>
+            <label className="custom-file-label" htmlFor="inputGroupFile03">{label}</label>
+          </div>
+
+          <h2 className={"mt-3"}>Manage gallery:</h2>
+          {
+            this.state.imageFiles ? this.state.imageFiles.map( image => (
+
+                <div style={{width: "100%"}} className="border border-light">
+                  <img style={{height:"15vh", margin: "1% 1% 1% 1%",left:"10px",float:"left" }}
+                       src={image} alt="Red dot"/>
+                </div>
+
+              )
+            ):<p></p>
+          }
+          <div style={{clear:"both"}}></div>
+          <p>Images already published:</p>
+          {
+            this.state.data.images ? this.state.data.images.map( image => (
+
+                <div style={{height:"15vh",position:"static"}} className="border border-light">
+                  <img style={{ margin: "1% 1% 1% 1%",left:"10px",float:"left" }}
+                       src={__dirname + image.text} alt="Red dot"/>
+                </div>
+
+              )
+            ):<p></p>
+          }
+
+          <div style={{clear:"both"}}></div>
+        </div>
       </div>
     );
   }

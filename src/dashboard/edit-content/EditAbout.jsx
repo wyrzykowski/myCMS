@@ -12,7 +12,6 @@ class EditAbout extends Form {
       h1: "",
       p: ""
     },
-    genres: [],
     errors: {}
   };
   schema = {
@@ -84,11 +83,6 @@ doSubmit = async () => {
    // this.props.history.push("/edit-page");
   this.sendImageToApi();
   };
-
-
-
-
-
 
 
 
