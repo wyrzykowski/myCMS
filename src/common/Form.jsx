@@ -17,9 +17,7 @@ class Form extends Component {
 
   }
 
-  getState=()=>{
-    return this.state;
-  }
+
   validate = () => {
     //to sprawdza po przycisniecu submit
     const options = { abortEarly: false };
@@ -56,30 +54,44 @@ class Form extends Component {
     // data destructuring bo uzywam tylko jednego
     const data = { ...this.state.data };
     data[input.name] = input.value;
-    console.log("input value",input.value)
+    //console.log("input value",input.value)
     this.setState({ data, errors });
   };
+
 //For single file
   onFileButtonChange(e){
     let files = e.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
     reader.onload = (e)=> {
-      console.warn("img data", e.target.result);
+     // console.warn("img data", e.target.result);
       this.setState({imageFile:e.target.result});
     }
   }
 
 
 
+
 //For multiple files
+  newFilesButtonOnClick(image){
+    const imageFiles = this.state.imageFiles.filter(element=>{
+      return element!=image;
+    })
+    this.setState({imageFiles})
+    console.log("new i,ages",this.state.imageFiles)
+  }
+
+  oldFilesButtonOnClick(image){
+    const images = this.state.data.images.filter(element=>{
+      return element!=image;
+    })
+    const data = {...this.state.data,images}
+    this.setState({data})
+  }
+
+
  onFilesButtonChange(e){
-    var imageFiles =this.state.imageFiles;
-
-
-    //var newcos = [...this.state.imageFiles,1,2,3];
-
-
+    var imageFiles = this.state.imageFiles;
     //here map and foreach not working!
   for(let i = 0;i<e.target.files.length;i++){
     const file = e.target.files[i];
@@ -88,7 +100,6 @@ class Form extends Component {
           let reader = new FileReader();
           reader.readAsDataURL(file);
           reader.onloadend =  function(e) {
-            console.log("kurwa dodaje")
             imageFiles = [...imageFiles, e.target.result];
             resolve("rendered successfully");
           }
@@ -98,12 +109,8 @@ class Form extends Component {
       })
 
 renderImage.then(()=>{
-  console.log("tu",imageFiles)
   this.setState({imageFiles})
-
-  console.log(this.state.imageFiles)
 })
-
 
     }
 
@@ -127,6 +134,8 @@ renderImage.then(()=>{
     );
   }
 
+
+
   renderFileButton(name,label) {
     return (
       <div style={{marginBottom:"3vh"}}>
@@ -149,8 +158,9 @@ renderImage.then(()=>{
   }
 
 
+
   renderFilesButton(name,label) {
-    console.log(this.state.imageFiles)
+    console.log("old2",this.state.data.images)
     return (
       <div style={{marginBottom:"3vh"}}>
         <p>{name}</p>
@@ -165,24 +175,33 @@ renderImage.then(()=>{
           {
             this.state.imageFiles ? this.state.imageFiles.map( image => (
 
-                <div style={{width: "100%"}} className="border border-light">
-                  <img style={{height:"15vh", margin: "1% 1% 1% 1%",left:"10px",float:"left" }}
-                       src={image} alt="Red dot"/>
+
+              <div key={image} className="container_thumbnail border border-light" onClick={()=>{this.newFilesButtonOnClick(image)}}>
+                <img src={image} alt="image" className="image_thumbnail"/>
+                <div className="overlay_thumbnail">
+                  <div className="text_thumbnail">Delete</div>
                 </div>
+              </div>
+
+
 
               )
             ):<p></p>
           }
           <div style={{clear:"both"}}></div>
+
+
+
+
           <p>Images already published:</p>
           {
             this.state.data.images ? this.state.data.images.map( image => (
-
-                <div style={{width: "100%",backgroundColor:"red"}} className="border border-light">
-                  <img className={"img-fluid"} style={{height:"10%", width: "20%", margin: "1% 1% 1% 1%",left:"10px",float:"left" }}
-                       src={__dirname + image.text} alt="Red dot"/>
+              <div  key={image+Math.random()} className="container_thumbnail border border-light" onClick={()=>{this.oldFilesButtonOnClick(image)}}>
+                <img src={__dirname + image.text} alt="image" className="image_thumbnail"/>
+                <div className="overlay_thumbnail">
+                  <div className="text_thumbnail">Delete</div>
                 </div>
-
+              </div>
               )
             ):<p></p>
           }
