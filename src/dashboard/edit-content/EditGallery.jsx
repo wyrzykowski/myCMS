@@ -1,7 +1,8 @@
 import Form from  './../../common/Form';
 import React, { Component } from "react";
 import Joi from "joi-browser";
-import { getSubpage } from "../../services/subpageService";
+import { getSubpage, saveSubpage } from "../../services/subpageService";
+import { toast } from "react-toastify";
 
 class EditGallery extends Form {
   state = {
@@ -15,10 +16,9 @@ class EditGallery extends Form {
   };
   schema = {
     h1: Joi.string()
-      .required()
       .label("Header"),
-    p: Joi.string()
-      .label("Content"),
+    images: Joi.any()
+
   };
 
   componentDidMount() {
@@ -36,6 +36,43 @@ class EditGallery extends Form {
       this.setState({data:(Newdata)});
     }
   }
+
+
+  doSubmit = async () => {
+    const newImages = this.state.imageFiles.map(image=>{
+    return {
+      type: "img",
+      text: image.fileName
+    }
+    })
+    const allImage =[...newImages,...this.state.data.images];
+    console.log("all image",allImage);
+
+
+    const dataToSave= {
+      _id:this.state.pageId,
+      block: [
+        {
+          name:"gallery",
+          h1: this.state.data.h1,
+          content: allImage
+        }
+      ]
+
+    }
+
+    console.log("tosavr",dataToSave)
+    this.refs.btn.setAttribute("disabled", "disabled"); //prevent mutiple time button press
+    await saveSubpage(dataToSave,"gallery").then(
+      toast.success("Content Updated!")
+    )
+
+    this.refs.btn.removeAttribute("disabled");
+    // this.props.history.push("/edit-page");
+    this.sendImageToApi();
+  };
+
+
 
 
 

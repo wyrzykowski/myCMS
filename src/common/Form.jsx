@@ -19,7 +19,8 @@ class Form extends Component {
 
 
   validate = () => {
-    //to sprawdza po przycisniecu submit
+
+    //run after submit button clicked
     const options = { abortEarly: false };
     const { error } = Joi.validate(this.state.data, this.schema, options);
     if (!error) return null;
@@ -29,6 +30,7 @@ class Form extends Component {
   };
 
   validateProperty = ({ name, value }) => {
+
     // to spawdza na zywo te pola tekstowe
     const obj = { [name]: value };
     const schema = { [name]: this.schema[name] }; // dynamiczne przypisze mi potrzebne lemnty z schema
@@ -65,6 +67,7 @@ class Form extends Component {
     reader.readAsDataURL(files[0]);
     reader.onload = (e)=> {
      // console.warn("img data", e.target.result);
+
       this.setState({imageFile:e.target.result});
     }
   }
@@ -78,7 +81,7 @@ class Form extends Component {
       return element!=image;
     })
     this.setState({imageFiles})
-    console.log("new i,ages",this.state.imageFiles)
+   // console.log("new i,ages",this.state.imageFiles)
   }
 
   oldFilesButtonOnClick(image){
@@ -91,6 +94,7 @@ class Form extends Component {
 
 
  onFilesButtonChange(e){
+
     var imageFiles = this.state.imageFiles;
     //here map and foreach not working!
   for(let i = 0;i<e.target.files.length;i++){
@@ -100,7 +104,14 @@ class Form extends Component {
           let reader = new FileReader();
           reader.readAsDataURL(file);
           reader.onloadend =  function(e) {
-            imageFiles = [...imageFiles, e.target.result];
+            //Set unique fileName
+            const uniqueName = parseInt( Date.now() + Math.random());
+            const newImage ={
+              content:e.target.result,
+              fileName: "./img/" + uniqueName + ".jpg"
+            }
+
+            imageFiles = [...imageFiles, newImage];
             resolve("rendered successfully");
           }
         } else {
@@ -109,7 +120,10 @@ class Form extends Component {
       })
 
 renderImage.then(()=>{
+
+
   this.setState({imageFiles})
+  //console.log(imageFiles[0])
 })
 
     }
@@ -160,7 +174,7 @@ renderImage.then(()=>{
 
 
   renderFilesButton(name,label) {
-    console.log("old2",this.state.data.images)
+   // console.log("old2",this.state.data.images)
     return (
       <div style={{marginBottom:"3vh"}}>
         <p>{name}</p>
@@ -175,9 +189,8 @@ renderImage.then(()=>{
           {
             this.state.imageFiles ? this.state.imageFiles.map( image => (
 
-
-              <div key={image} className="container_thumbnail border border-light" onClick={()=>{this.newFilesButtonOnClick(image)}}>
-                <img src={image} alt="image" className="image_thumbnail"/>
+              <div key={image.fileName} className="container_thumbnail border border-light" onClick={()=>{this.newFilesButtonOnClick(image)}}>
+                <img src={image.content} alt="image" className="image_thumbnail"/>
                 <div className="overlay_thumbnail">
                   <div className="text_thumbnail">Delete</div>
                 </div>

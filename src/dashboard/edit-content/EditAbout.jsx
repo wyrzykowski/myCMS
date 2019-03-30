@@ -18,8 +18,9 @@ class EditAbout extends Form {
     h1: Joi.string()
       .required()
       .label("Header"),
-    p: Joi.string()
-      .label("Content"),
+     p: Joi.string()
+       .label("Content"),
+
   };
 async populateContent(){
   const {data} = await getSubpage('onas');
