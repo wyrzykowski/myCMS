@@ -9,7 +9,7 @@ export function saveSubpage(subpage,name) {
     //update existing subpage
     console.log("im here")
     const body = { ...subpage };
-    return http.patch(`/edit/onas`, body);
+    return http.patch(`/edit/${name}`, body);
   }
   return http.post(`/${name}`, subpage); // create new move
 }

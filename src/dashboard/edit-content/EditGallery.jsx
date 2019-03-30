@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Joi from "joi-browser";
 import { getSubpage, saveSubpage } from "../../services/subpageService";
 import { toast } from "react-toastify";
+import { sendImage } from "../../services/imageService";
 
 class EditGallery extends Form {
   state = {
@@ -33,9 +34,11 @@ class EditGallery extends Form {
         images: data[0].block[0].content
 
       }
-      this.setState({data:(Newdata)});
+
+      this.setState({data:(Newdata),pageId:data[0]._id});
     }
   }
+
 
 
   doSubmit = async () => {
@@ -69,7 +72,7 @@ class EditGallery extends Form {
 
     this.refs.btn.removeAttribute("disabled");
     // this.props.history.push("/edit-page");
-    this.sendImageToApi();
+   // this.sendImageToApi();
   };
 
 
