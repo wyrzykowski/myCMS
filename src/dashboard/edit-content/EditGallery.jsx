@@ -53,28 +53,39 @@ class EditGallery extends Form {
       const formData = { file: file.fileData }
     //  console.log("formData",file.Data)
       try {
-        sendImage(url, formData);
+        sendImage(url, formData,()=>{
+          //Clear arrays and show actual images state
+          const newImages=[]
+          const dataToSaveOnDisk = {...this.state.dataToSaveOnDisk,newImages}
+          this.setState({dataToSaveOnDisk,imageFiles:newImages})
+          this.populateContent();
+        });
       }catch(e){
         console.log(e)}
     })
-
-    //delete files
-    this.state.dataToSaveOnDisk.deletedImages.map(file=>{
-      const url=`files/${file.text}`
-     // console.log("formData DELETE",file.text)
-      const someData=null;
-      try {
-        deleteImage(url, someData)
-        console.log("DELETE")
-      }catch(e){
-        console.log(e)}
-
-    })
-
-
-
   }
 
+  deleteImageFromApi() {
+    // DELETE IMAGE
+    this.state.dataToSaveOnDisk.deletedImages.map(file => {
+      const url = `files/${file.text}`
+      // console.log("formData DELETE",file.text)
+      const someData = null;
+      try {
+        deleteImage(url, someData,()=>{
+          console.log("TUTUAJ")
+          //If image successfully deleted clear file to delete state
+          const deletedImages=[]
+          const dataToSaveOnDisk = {...this.state.dataToSaveOnDisk,deletedImages}
+          console.log("CLERED",dataToSaveOnDisk)
+          this.setState({dataToSaveOnDisk})
+        })
+        //console.log("DELETE")
+      } catch (e) {
+        console.log(e)
+      }
+    })
+  }
 
 
   doSubmit = async () => {
@@ -130,6 +141,7 @@ class EditGallery extends Form {
     this.setState({dataToSaveOnDisk})
     //Save only New Images to Disk using API:
     this.sendImageToApi();
+    this.deleteImageFromApi();
   };
 
 

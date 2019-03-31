@@ -85,6 +85,7 @@ app.delete(`/files/:folderName/:fileName`,(req,res)=>{
       console.log(e)
       res.status(400).send(e);
     }
+    res.status(200).send(fileName);
 
   })
 
