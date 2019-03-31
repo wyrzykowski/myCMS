@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import Joi from "joi-browser";
 import { getSubpage, saveSubpage } from "../../services/subpageService";
 import { toast } from "react-toastify";
-import { sendImage } from "../../services/imageService";
+import { sendImage,deleteImage } from "../../services/imageService";
 
 class EditGallery extends Form {
   state = {
@@ -44,23 +44,31 @@ class EditGallery extends Form {
   }
 
   sendImageToApi(){
-    console.log("DATA",this.state.dataToSaveOnDisk)
+    var finished=0;
+
+   // console.log("DATA",this.state.dataToSaveOnDisk)
     this.state.dataToSaveOnDisk.newImages.map((file)=>{
       //Save new files using API
       const url=`files/${file.fileName}`
       const formData = { file: file.fileData }
-      console.log("formData",file.Data)
+    //  console.log("formData",file.Data)
       try {
         sendImage(url, formData);
       }catch(e){
         console.log(e)}
     })
 
-
     //delete files
     this.state.dataToSaveOnDisk.deletedImages.map(file=>{
-      const url=`files/${file}`
-      console.log("formData DELETE",file)
+      const url=`files/${file.text}`
+     // console.log("formData DELETE",file.text)
+      const someData=null;
+      try {
+        deleteImage(url, someData)
+        console.log("DELETE")
+      }catch(e){
+        console.log(e)}
+
     })
 
 
@@ -81,7 +89,7 @@ class EditGallery extends Form {
     var allImage;
     if(this.state.data.images)allImage =[...newImages,...this.state.data.images];
 
-    console.log("all image",allImage);
+    //console.log("all image",allImage);
 
 
     const dataToSave= {
@@ -96,7 +104,7 @@ class EditGallery extends Form {
 
     }
 
-    console.log("tosavr",dataToSave)
+    //console.log("tosavr",dataToSave)
     this.refs.btn.setAttribute("disabled", "disabled"); //prevent mutiple time button press
     await saveSubpage(dataToSave,"gallery").then(
       toast.success("Content Updated!")
@@ -118,7 +126,7 @@ class EditGallery extends Form {
 
     let dataToSaveOnDisk = this.state.dataToSaveOnDisk;
     dataToSaveOnDisk = {...dataToSaveOnDisk,newImages:imagesToSaveOnDisk}
-    console.log("data to save on disk new", dataToSaveOnDisk)
+   // console.log("data to save on disk new", dataToSaveOnDisk)
     this.setState({dataToSaveOnDisk})
     //Save only New Images to Disk using API:
     this.sendImageToApi();

@@ -95,8 +95,8 @@ class Form extends Component {
     deletedImages = [...deletedImages,image]
     let dataToSaveOnDisk = this.state.dataToSaveOnDisk;
     dataToSaveOnDisk = {...dataToSaveOnDisk,deletedImages}
-    console.log("delted Imgae", deletedImages)
-    console.log("data to save on disk", dataToSaveOnDisk)
+    //console.log("delted Imgae", deletedImages)
+   // console.log("data to save on disk", dataToSaveOnDisk)
 
 
     const data = {...this.state.data,images}

@@ -72,6 +72,7 @@ app.post(`/files/:folderName/:fileName`,(req,res)=>{
     convertToJpeg(`./../public/${folderName}`, newFileName) //convert and save to local disk
   }catch(e){
     console.log("User not include picture")
+    res.status(400).send(e);
   }
 })
 
@@ -79,6 +80,13 @@ app.delete(`/files/:folderName/:fileName`,(req,res)=>{
   const folderName = req.params.folderName;
   const fileName = req.params.fileName;
   console.log("USUWAM PLIKI",folderName,fileName);
+  fs.unlink(`./../public/${folderName}/${fileName}`,(e)=>{
+    if(e) {
+      console.log(e)
+      res.status(400).send(e);
+    }
+
+  })
 
 })
 
