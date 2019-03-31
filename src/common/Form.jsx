@@ -80,6 +80,7 @@ class Form extends Component {
     const imageFiles = this.state.imageFiles.filter(element=>{
       return element!=image;
     })
+
     this.setState({imageFiles})
    // console.log("new i,ages",this.state.imageFiles)
   }
@@ -88,8 +89,18 @@ class Form extends Component {
     const images = this.state.data.images.filter(element=>{
       return element!=image;
     })
+
+
+    var deletedImages = this.state.dataToSaveOnDisk.deletedImages;
+    deletedImages = [...deletedImages,image]
+    let dataToSaveOnDisk = this.state.dataToSaveOnDisk;
+    dataToSaveOnDisk = {...dataToSaveOnDisk,deletedImages}
+    console.log("delted Imgae", deletedImages)
+    console.log("data to save on disk", dataToSaveOnDisk)
+
+
     const data = {...this.state.data,images}
-    this.setState({data})
+    this.setState({data,dataToSaveOnDisk})
   }
 
 
@@ -106,7 +117,7 @@ class Form extends Component {
           reader.onloadend =  function(e) {
             //Set unique fileName
             const uniqueName = parseInt( Date.now() + Math.random());
-            const newImage ={
+            const newImage = {
               content:e.target.result,
               fileName: "./img/" + uniqueName + ".jpg"
             }

@@ -50,11 +50,38 @@ var filename = req.params.filename;
   var filepath;
   try {
     filepath = base64Img.imgSync(req.body.file, './../public/backgrounds', filename);
-    convertToJpeg('./../public/backgrounds', filename)
+    convertToJpeg('./../public/backgrounds', filename) //convert and save to local disk
   }catch(e){
     console.log("User not include picture")
   }
 })
+
+//POST MULTIPLE FILES
+app.post(`/files/:folderName/:fileName`,(req,res)=>{
+  const folderName = req.params.folderName;
+  const fileName = req.params.fileName;
+  console.log("WYSLANE PLIKI",folderName,fileName);
+  res.send("file received"+fileName);
+ // console.log("received ",res)//
+  var filepath;
+  //console.log("length",req.body);
+  try {
+    //Have to delete extension from name setting because it will be added  by base64Image
+   var newFileName = fileName.replace(".jpg","")
+    filepath = base64Img.imgSync(req.body.file, `./../public/${folderName}`,newFileName );
+    convertToJpeg(`./../public/${folderName}`, newFileName) //convert and save to local disk
+  }catch(e){
+    console.log("User not include picture")
+  }
+})
+
+app.delete(`/files/:folderName/:fileName`,(req,res)=>{
+  const folderName = req.params.folderName;
+  const fileName = req.params.fileName;
+  console.log("USUWAM PLIKI",folderName,fileName);
+
+})
+
 
 app.listen(port,()=>{
   console.log(`started server on port ${port}`);

@@ -42,7 +42,7 @@ async componentDidMount() {
   sendImageToApi(){
     var fileData = this.state.imageFile;
     //here send file to API
-    const url = "about";
+    const url = "file/about";
 
     const formData = { file: fileData }
     try {

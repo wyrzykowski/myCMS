@@ -7,6 +7,10 @@ import { sendImage } from "../../services/imageService";
 
 class EditGallery extends Form {
   state = {
+    dataToSaveOnDisk:{
+      newImages: [],
+      deletedImages: []
+    },
     imageFiles: [],
     pageId:false,
     data: {
@@ -39,16 +43,44 @@ class EditGallery extends Form {
     }
   }
 
+  sendImageToApi(){
+    console.log("DATA",this.state.dataToSaveOnDisk)
+    this.state.dataToSaveOnDisk.newImages.map((file)=>{
+      //Save new files using API
+      const url=`files/${file.fileName}`
+      const formData = { file: file.fileData }
+      console.log("formData",file.Data)
+      try {
+        sendImage(url, formData);
+      }catch(e){
+        console.log(e)}
+    })
+
+
+    //delete files
+    this.state.dataToSaveOnDisk.deletedImages.map(file=>{
+      const url=`files/${file}`
+      console.log("formData DELETE",file)
+    })
+
+
+
+  }
+
 
 
   doSubmit = async () => {
+
+
     const newImages = this.state.imageFiles.map(image=>{
     return {
       type: "img",
       text: image.fileName
     }
     })
-    const allImage =[...newImages,...this.state.data.images];
+    var allImage;
+    if(this.state.data.images)allImage =[...newImages,...this.state.data.images];
+
     console.log("all image",allImage);
 
 
@@ -72,7 +104,24 @@ class EditGallery extends Form {
 
     this.refs.btn.removeAttribute("disabled");
     // this.props.history.push("/edit-page");
-   // this.sendImageToApi();
+
+
+   //Save image which should be save to disk
+
+    //Create object with File data and file Name
+    var imagesToSaveOnDisk = newImages.map((image,index)=>{
+      return {
+        fileName: image.text,
+        fileData: this.state.imageFiles[index].content
+      }
+    })
+
+    let dataToSaveOnDisk = this.state.dataToSaveOnDisk;
+    dataToSaveOnDisk = {...dataToSaveOnDisk,newImages:imagesToSaveOnDisk}
+    console.log("data to save on disk new", dataToSaveOnDisk)
+    this.setState({dataToSaveOnDisk})
+    //Save only New Images to Disk using API:
+    this.sendImageToApi();
   };
 
 
