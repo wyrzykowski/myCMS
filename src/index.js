@@ -10,6 +10,7 @@ window.apiUri="http://localhost:3001/fakfajzer";//set Api Uri to be global and a
 
 ReactDOM.render(
 <div>
+
   <BrowserRouter>
 
     <Switch>

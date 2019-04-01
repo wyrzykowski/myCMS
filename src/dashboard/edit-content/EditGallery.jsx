@@ -46,12 +46,10 @@ class EditGallery extends Form {
   sendImageToApi(){
     var finished=0;
 
-   // console.log("DATA",this.state.dataToSaveOnDisk)
     this.state.dataToSaveOnDisk.newImages.map((file)=>{
       //Save new files using API
       const url=`files/${file.fileName}`
       const formData = { file: file.fileData }
-    //  console.log("formData",file.Data)
       try {
         sendImage(url, formData,()=>{
           //Clear arrays and show actual images state
@@ -69,18 +67,14 @@ class EditGallery extends Form {
     // DELETE IMAGE
     this.state.dataToSaveOnDisk.deletedImages.map(file => {
       const url = `files/${file.text}`
-      // console.log("formData DELETE",file.text)
       const someData = null;
       try {
         deleteImage(url, someData,()=>{
-          console.log("TUTUAJ")
           //If image successfully deleted clear file to delete state
           const deletedImages=[]
           const dataToSaveOnDisk = {...this.state.dataToSaveOnDisk,deletedImages}
-          console.log("CLERED",dataToSaveOnDisk)
           this.setState({dataToSaveOnDisk})
         })
-        //console.log("DELETE")
       } catch (e) {
         console.log(e)
       }
@@ -100,9 +94,6 @@ class EditGallery extends Form {
     var allImage;
     if(this.state.data.images)allImage =[...newImages,...this.state.data.images];
 
-    //console.log("all image",allImage);
-
-
     const dataToSave= {
       _id:this.state.pageId,
       block: [
@@ -115,7 +106,6 @@ class EditGallery extends Form {
 
     }
 
-    //console.log("tosavr",dataToSave)
     this.refs.btn.setAttribute("disabled", "disabled"); //prevent mutiple time button press
     await saveSubpage(dataToSave,"gallery").then(
       toast.success("Content Updated!")
@@ -137,7 +127,6 @@ class EditGallery extends Form {
 
     let dataToSaveOnDisk = this.state.dataToSaveOnDisk;
     dataToSaveOnDisk = {...dataToSaveOnDisk,newImages:imagesToSaveOnDisk}
-   // console.log("data to save on disk new", dataToSaveOnDisk)
     this.setState({dataToSaveOnDisk})
     //Save only New Images to Disk using API:
     this.sendImageToApi();
