@@ -51,6 +51,7 @@ if(this.setHeight===false) { //I have to force that setState can be setting alte
   }
 //End setting constComponetHeight
   render() {
+
     return (
 
      <div>

@@ -11,7 +11,7 @@ import EditContact from "./edit-content/EditContact";
 import EditGallery from "./edit-content/EditGallery";
 import EditLandingPage from "./edit-content/EditLandingPage";
 import EditOffer from "./edit-content/EditOffer";
-import MainSettings from "./main-settings";
+import MainDashboard from "./main-dashboard";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 class Dashboard extends Component {
@@ -37,8 +37,14 @@ const contents = [
     return (
       <div>
 
-        <Nav companyName={this.state.companyName}/>
-        <div className="container-fluid mt-5">
+        <div className="container-fluid">
+          <div className="row">
+            <div
+              className="pt-4 pb-2 mb-3">
+            <Nav companyName={this.state.companyName}/>
+            </div>
+          </div>
+
           <div className="row">
           <LeftNav clasName="col-md-2 d-none d-md-block  sidebar"/>
 
@@ -57,14 +63,11 @@ const contents = [
                 <Route path="/dashboard/edit-gallery" component={EditGallery}/>
                 <Route path="/dashboard/edit-landing-page" component={EditLandingPage}/>
                 <Route path="/dashboard/edit-offer" component={EditOffer}/>
-                <Route path="/dashboard/main-settings" component={MainSettings}/>
+                <Route path="/dashboard/main-settings" component={MainDashboard}/>
               </Switch>
-
             </main>
           </div>
-
         </div>
-
 
 <ToastContainer/>
       </div>

@@ -1,44 +1,45 @@
 import React, { Component } from "react";
-import Joi from "joi-browser";
-import Form from "./../../common/Form"
+import ControlledEditor from '../../common/ControlledEditor'
+import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
+import FileButton from "../../common/FileButton";
 import { getSubpage, saveSubpage } from "../../services/subpageService";
 import { toast } from "react-toastify";
 import { sendImage } from "../../services/imageService";
-class EditAbout extends Form {
-  state = {
+
+
+class EditOffer extends ControlledEditor {
+  state={
     imageFile:false,
-    pageId:false,
-    data: {
-      h1: "",
-      p: ""
-    },
-    errors: {}
-  };
-  schema = {
-    h1: Joi.string()
-      .required()
-      .label("Header"),
-     p: Joi.string()
-       .label("Content"),
-
-  };
-async populateContent(){
-  const {data} = await getSubpage('onas');
-  console.log("data",data[0].block[0].content[0].text)
-  var content;
-  if( data.length===0) content = false; //if can't fetch data set false to avoid error occur
-  else content = data[0];
-  const Newdata ={
-    h1: content.block[0].content[0].text,
-    p: content.block[0].content[1].text
+    pageId:false
   }
-  this.setState({data:Newdata,pageId:content._id});
-}
 
-async componentDidMount() {
-  await this.populateContent();
-}
+  async componentDidMount() {
+    await this.populateContent();
+  }
 
+  constructor(props) {
+    const DBEditorState={"entityMap":{},"blocks":[{"key":"637gr","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
+    super(props);
+    const editorState = EditorState.createWithContent(
+      convertFromRaw(DBEditorState));
+
+    this.state = {
+      editorState,
+
+    };
+
+  }
+
+
+  async populateContent() {
+
+    const { data } = await getSubpage('onas');
+    //const jsonData = JSON.stringify(data[0].block[0].content);
+    const editorState = EditorState.createWithContent(
+      convertFromRaw(JSON.parse(data[0].block)));//parse from string to object
+    this.setState({editorState,pageId:data[0]._id})
+
+  }
   sendImageToApi(){
     var fileData = this.state.imageFile;
     //here send file to API
@@ -48,60 +49,52 @@ async componentDidMount() {
     try {
       sendImage(url, formData);
     }catch(e){
-    console.log(e)}
+      console.log(e)}
   }
-
-
-
-doSubmit = async () => {
-  const dataToSave= {
-    _id:this.state.pageId,
-    block: [
-      {
-        name: "text",
-        content: [
-          {
-            type: "h1",
-            text: this.state.data.h1
-          },
-          {
-            type: "p",
-            text: this.state.data.p
-          }
-        ]
-
-      }
-    ]
-
-
-  }
+  doSubmit = async () => {
+    const dataToSave= {
+      _id:this.state.pageId,
+      block: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())),
+    }
     this.refs.btn.setAttribute("disabled", "disabled"); //prevent mutiple time button press
-    await saveSubpage(dataToSave,"onas").then(
-      toast.success("Content Updated!")
-    )
+    await saveSubpage(dataToSave,"onas").then(()=>{
+        toast.success("Content Updated!")
+        this.refs.btn.removeAttribute("disabled");
+      }
 
+
+    ).catch((e)=>{
+      this.refs.btn.removeAttribute("disabled");
+    })
     this.refs.btn.removeAttribute("disabled");
-   // this.props.history.push("/edit-page");
-  this.sendImageToApi();
+    this.sendImageToApi()
   };
 
+  renderButton(label) {
+    return (
+      <button  ref="btn"   className="btn btn-primary mb-4" onClick={this.doSubmit}>
+        {label}
+      </button>
+    );
+  }
+
+  handleImage=(imageFile)=>{
+    this.setState({imageFile})
+  }
 
 
   render() {
     return (
       <div>
-        <h1>Edit About Page</h1>
-        <form onSubmit={this.handleSubmit}>
-          {this.renderInput("h1", "Header")}
-          {this.renderTextarea("p", "Content")}
-          {this.renderFileButton("Backgorund Image:","Upload Image")}
+        <h1>Edit Offer Page</h1>
+        <div style={{minHeight:"30vh",border:"solid 1px #DDD"}}>{this.renderControlledEditor()}</div>
+        <FileButton onSelectImage={this.handleImage}  name="Backgorund Image:" label="Upload Image"/>
+        <div>
           {this.renderButton("Save")}
-        </form>
-
-
+        </div>
       </div>
     );
   }
 }
 
-export default EditAbout;
+export default EditOffer;

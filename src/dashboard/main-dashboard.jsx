@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
-class MainSettings extends Component {
+class MainDashboard extends Component {
   render() {
     return (
       <div>
-        <h1>Main settings</h1>
+        <h1>Statistics</h1>
       </div>
     );
   }
 }
 
-export default MainSettings;
+export default MainDashboard;

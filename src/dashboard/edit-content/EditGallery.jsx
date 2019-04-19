@@ -7,6 +7,7 @@ import { sendImage,deleteImage } from "../../services/imageService";
 
 class EditGallery extends Form {
   state = {
+    imagesFolder:"img",
     dataToSaveOnDisk:{
       newImages: [],
       deletedImages: []

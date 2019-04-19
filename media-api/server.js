@@ -77,19 +77,26 @@ app.post(`/files/:folderName/:fileName`,(req,res)=>{
 })
 
 app.delete(`/files/:folderName/:fileName`,(req,res)=>{
+  try{
   const folderName = req.params.folderName;
   const fileName = req.params.fileName;
   console.log("USUWAM PLIKI",folderName,fileName);
+
+
   fs.unlink(`./../public/${folderName}/${fileName}`,(e)=>{
     if(e) {
       console.log(e)
       res.status(400).send(e);
     }
     res.status(200).send(fileName);
-
   })
+    }
+  catch(error){
+    console.log(error);
+  };
 
-})
+
+});
 
 
 app.listen(port,()=>{

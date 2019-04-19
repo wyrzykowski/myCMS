@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { getSubpage } from "../../services/subpageService";
 
+import draftToHtml from "draftjs-to-html";
+import { ContentState, convertFromRaw, convertToRaw, EditorState } from "draft-js";
+
 class Contact extends Component {
   state={
     content:[],
@@ -9,15 +12,22 @@ class Contact extends Component {
 
   async componentDidMount() {
     const {data} = await getSubpage('kontakt');
-    var content;
+    let content;
+    let textContent;
     if( data.length===0) content = false; //if can't fetch data set false to avoid error occur
-    else content = data[0];
-    this.setState({content:content.block[0].content,background:content.background});
+    else {
+      textContent = JSON.parse(data[0].block);
+      content =data[0];
+
+    }
+    this.setState({content:textContent,background:content.background});
   }
+
+
   render() {
     const style={
       minHeight:window.innerHeight-this.props.height,
-      background: `url(${this.state.background})  no-repeat left center fixed `,
+      background: `url(./backgrounds/${this.state.background})  no-repeat left center fixed `,
 
 
     }
@@ -28,18 +38,16 @@ class Contact extends Component {
           </div>
           <div className="col-xl-4 co-lg-4">
           {
-           this.state.content ? this.state.content.map(content=>{
-              switch (content.type){
-                case 'h1': return <h1 key={content.text+Math.random()} className="h1 text-center  mb-4 mt-4">{content.text}</h1>
-                break;
-                case 'h2': return <h2 key={content.text+Math.random()} className="h2 text-center ">{content.text}</h2>
-                  break;
-                case 'h3': return <h3 key={content.text+Math.random()} className="h3 text-center ">{content.text}</h3>
-                  break;
-                case 'h4': return <h4 key={content.text+Math.random()} className="h4 text-center ">{content.text}</h4>
-                  break;
-              }
-            }) : ''
+            !this.state.content ?  " aa" :
+              <div   className="container-fluid"   style={style}>
+                <div className="row" id="offer" >
+
+                  <div className="col-md-6 col-lg-7 col-xl-7 col-sm-12">
+                  </div>
+                  <div dangerouslySetInnerHTML={{__html:  draftToHtml(this.state.content) }} />
+                </div>
+
+              </div>
           }
           </div>
           <div className="col-xl-4 col-lg-4  ">

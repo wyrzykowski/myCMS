@@ -1,25 +1,24 @@
 import React, { Component } from "react";
-import HtmlEditor from "../../common/htmlEditor";
 import ControlledEditor from '../../common/ControlledEditor'
-import { ContentState, convertFromRaw, convertToRaw, EditorState } from "draft-js";
-import htmlToDraft from 'html-to-draftjs';
-import draftToHtml from "draftjs-to-html";
+import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
+import FileButton from "../../common/FileButton";
 import { getSubpage, saveSubpage } from "../../services/subpageService";
 import { toast } from "react-toastify";
-import Form from "./../../common/Form";
+import { sendImage } from "../../services/imageService";
+
 
 class EditOffer extends ControlledEditor {
-state={
-  imageFile:false,
-  pageId:false
-}
+  state={
+    imageFile:false,
+    pageId:false
+  }
 
   async componentDidMount() {
     await this.populateContent();
   }
 
   constructor(props) {
-    const DBEditorState={"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
+    const DBEditorState={"entityMap":{},"blocks":[{"key":"637gr","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
     super(props);
     const editorState = EditorState.createWithContent(
       convertFromRaw(DBEditorState));
@@ -33,34 +32,41 @@ state={
 
 
   async populateContent() {
-
     const { data } = await getSubpage('oferta');
     //const jsonData = JSON.stringify(data[0].block[0].content);
-    const DBEditorState={"entityMap":{},"blocks":[{"key":"637gr","text":"NEW Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
     const editorState = EditorState.createWithContent(
       convertFromRaw(JSON.parse(data[0].block)));//parse from string to object
-     this.setState({editorState,pageId:data[0]._id})
+    this.setState({editorState,pageId:data[0]._id})
 
   }
+  sendImageToApi(){
+    var fileData = this.state.imageFile;
+    //here send file to API
+    const url = "file/offer";
 
+    const formData = { file: fileData }
+    try {
+      sendImage(url, formData);
+    }catch(e){
+      console.log(e)}
+  }
   doSubmit = async () => {
     const dataToSave= {
       _id:this.state.pageId,
       block: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())),
-    }
-    console.log("DATA TO DAVE",dataToSave)
+    };
     this.refs.btn.setAttribute("disabled", "disabled"); //prevent mutiple time button press
     await saveSubpage(dataToSave,"oferta").then(()=>{
-      toast.success("Content Updated!")
-      this.refs.btn.removeAttribute("disabled");
-    }
+        toast.success("Content Updated!")
+        this.refs.btn.removeAttribute("disabled");
+      }
 
 
     ).catch((e)=>{
       this.refs.btn.removeAttribute("disabled");
     })
     this.refs.btn.removeAttribute("disabled");
-
+    this.sendImageToApi()
   };
 
   renderButton(label) {
@@ -71,13 +77,17 @@ state={
     );
   }
 
+  handleImage=(imageFile)=>{
+    this.setState({imageFile})
+  }
+
+
   render() {
-    console.log("tu",JSON.stringify( convertToRaw(this.state.editorState.getCurrentContent())))
     return (
       <div>
         <h1>Edit Offer Page</h1>
-        <div>{this.renderControlledEditor()}</div>
-        <div dangerouslySetInnerHTML={{__html:  draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())) }} />
+        <div style={{minHeight:"30vh",border:"solid 1px #DDD"}}>{this.renderControlledEditor()}</div>
+        <FileButton onSelectImage={this.handleImage}  name="Backgorund Image:" label="Upload Image"/>
         <div>
           {this.renderButton("Save")}
         </div>

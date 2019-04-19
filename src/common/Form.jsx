@@ -6,10 +6,8 @@ import Textarea from "./Textarea";
 
 class Form extends Component {
   state = {
-
     data: {},
-    errors: {},
-
+    errors: {}
   };
 
   constructor() {
@@ -18,7 +16,6 @@ class Form extends Component {
 
 
   validate = () => {
-
     //run after submit button clicked
     const options = { abortEarly: false };
     const { error } = Joi.validate(this.state.data, this.schema, options);
@@ -29,10 +26,13 @@ class Form extends Component {
   };
 
   validateProperty = ({ name, value }) => {
-
-    // to spawdza na zywo te pola tekstowe
+    console.log(name);
+    console.log(value);
+    // live checking text fields
     const obj = { [name]: value };
+
     const schema = { [name]: this.schema[name] }; // dynamiczne przypisze mi potrzebne lemnty z schema
+    console.log(obj);
     const { error } = Joi.validate(obj, schema); // chce tu robic abord early dlatego go tu nie pisze
     return error ? error.details[0].message : null;
   };
@@ -45,6 +45,7 @@ class Form extends Component {
 
     this.doSubmit();
   };
+
   handleChange = ({ currentTarget: input }) => {
     const errors = { ...this.state.errors }; //kopiuje state'a
     const errorMessage = this.validateProperty(input); //generuje error message przekazuje input'a calego
@@ -53,7 +54,7 @@ class Form extends Component {
     else delete errors[input.name]; // jesli nie ma zadnegi errora to usun go z tablicy errorow
 
     // data destructuring bo uzywam tylko jednego
-    const data = { ...this.state.data };
+    const data = { ...this.state.data};
     data[input.name] = input.value;
     //console.log("input value",input.value)
     this.setState({ data, errors });
@@ -87,7 +88,7 @@ class Form extends Component {
   oldFilesButtonOnClick(image){
     const images = this.state.data.images.filter(element=>{
       return element!=image;
-    })
+    });
 
 
     var deletedImages = this.state.dataToSaveOnDisk.deletedImages;
@@ -104,7 +105,7 @@ class Form extends Component {
 
 
  onFilesButtonChange(e){
-
+const imageFolder = this.state.imagesFolder;
     var imageFiles = this.state.imageFiles;
     //here map and foreach not working!
   for(let i = 0;i<e.target.files.length;i++){
@@ -116,9 +117,10 @@ class Form extends Component {
           reader.onloadend =  function(e) {
             //Set unique fileName
             const uniqueName = parseInt( Date.now() + Math.random());
+            console.log("img folderL",imageFolder);
             const newImage = {
               content:e.target.result,
-              fileName: "./img/" + uniqueName + ".jpg"
+              fileName: `./${imageFolder}/` + uniqueName + ".jpg"
             }
 
             imageFiles = [...imageFiles, newImage];
@@ -183,7 +185,7 @@ renderImage.then(()=>{
 
 
 
-  renderFilesButton(name,label) {
+  renderFilesButton(name,label,manageName="Manage gallery:") {
    // console.log("old2",this.state.data.images)
     return (
       <div style={{marginBottom:"3vh"}}>
@@ -195,7 +197,7 @@ renderImage.then(()=>{
             <label className="custom-file-label" htmlFor="inputGroupFile03">{label}</label>
           </div>
 
-          <h2 className={"mt-3"}>Manage gallery:</h2>
+          <h2 className={"mt-3"}>{manageName}</h2>
           {
             this.state.imageFiles ? this.state.imageFiles.map( image => (
 
@@ -205,16 +207,10 @@ renderImage.then(()=>{
                   <div className="text_thumbnail">Delete</div>
                 </div>
               </div>
-
-
-
               )
             ):<p></p>
           }
           <div style={{clear:"both"}}></div>
-
-
-
 
           <p>Images already published:</p>
           {
@@ -230,8 +226,6 @@ renderImage.then(()=>{
           }
 
           <div style={{clear:"both"}}></div>
-
-
         </div>
       </div>
     );
@@ -240,7 +234,6 @@ renderImage.then(()=>{
 
   renderSelect(name, label, options) {
     const { data, errors } = this.state;
-
     return (
       <Select
         name={name}
@@ -252,6 +245,7 @@ renderImage.then(()=>{
       />
     );
   }
+
   renderInput(name, label, type) {
     const { data, errors } = this.state;
     return (
@@ -278,7 +272,6 @@ renderImage.then(()=>{
       />
     );
   }
-
 }
 
 export default Form;

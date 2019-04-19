@@ -103,7 +103,10 @@ class Slideshow extends Component {
     setTimer=()=>{
         var img = new Image(); // Get width and height of original image
         if(this.state.slides) {
+          try {
             img.src = this.state.slides[0].slide;// assume every image have same size
+          }
+          catch(e){console.log("No slide files!")}
             var getImageHeight = (currentImageHeight, currentImageWidth) => {
                 this.setState({ currentImageHeight, currentImageWidth })
             }
