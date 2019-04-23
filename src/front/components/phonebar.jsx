@@ -2,13 +2,7 @@ import React, {Component} from 'react';
 
 class Phonebar extends Component {
     state={
-        phoneNumber: 'Kontakt: 692 622 745',
-        style: {
-            backgroundColor:'#28A745',
-            color:'#fff',
-            marginBottom:'-1%',
-            minHeight:'30px'
-        }
+        phoneNumber: 'Kontakt: 692 622 745'
     }
 
 
@@ -16,8 +10,8 @@ class Phonebar extends Component {
 
 
         return (
-            <div style={this.state.style}>
-                <h3>{this.state.phoneNumber}</h3>
+            <div className={"topBeamColor"}>
+                <h3 style={{paddingBottom:"1px", margin:"0"}}>{this.state.phoneNumber}</h3>
             </div>
         );
     }

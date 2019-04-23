@@ -8,11 +8,14 @@
     "base64-img": "^1.0.4",
     "bootstrap": "^4.1.1",
     "cors": "^2.8.5",
+    "css": "^2.2.4",
     "draft-js": "^0.10.5",
     "draftjs-to-html": "^0.8.4",
     "font-awesome": "^4.7.0",
+    "html-to-draftjs": "latest",
     "imagemin": "^6.1.0",
     "immutability-helper": "^3.0.0",
+    "js-to-css": "^1.0.2",
     "node-sass": "^4.11.0",
     "png-to-jpeg": "^1.0.1",
     "react": "^16.8.6",
@@ -25,7 +28,7 @@
     "react-slideshow-image": "^1.1.2",
     "react-toastify": "^4.5.2",
     "slideshow": "^1.0.2",
-    "html-to-draftjs": "latest"
+    "transform-css-to-js": "^0.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -43,6 +46,10 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "prettier": "^1.16.4"
+    "css-loader": "^2.1.1",
+    "css-object-loader": "0.0.7",
+    "prettier": "^1.16.4",
+    "style-loader": "^0.23.1",
+    "url-loader": "^1.1.2"
   }
 }

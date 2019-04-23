@@ -7,6 +7,7 @@ const base64Img = require('base64-img');
 const app = express();
 const port  = process.env.PORT;
 const cors = require("cors");
+const path = require('path');
 const obrazek="jeszcze nic";
 const convertToJpeg = require("./utils/convert-to-jpeg");
 // app.use(bodyParser.json()); //body parser will automatically parse JSON to object JS when req sth.
@@ -18,27 +19,62 @@ app.use(cors());
 const info ={name:'mycms-media-api',ver:' 1.0.0',dedicated:'Fakfajzer',author:'Karol Wyrzykowski'}
 const appName='fakfajzer';
 
-app.get('/file', function (req, res, next) {
+// app.get('/file', function (req, res, next) {
+//   var options = {
+//     root: './../public/',
+//     dotfiles: 'deny',
+//     headers: {
+//       'x-timestamp': Date.now(),
+//       'x-sent': true
+//     }
+//   };
+//
+//   console.log(options.root);
+//
+//   var fileName = req.params.name;
+//   res.sendFile("about.jpg", options, function (err) {
+//     if (err) {
+//       next(err);
+//     } else {
+//       console.log('Sent:', obrazek);
+//     }
+//   });
+// });
 
-  var options = {
-    root: './../public/',
-    dotfiles: 'deny',
-    headers: {
-      'x-timestamp': Date.now(),
-      'x-sent': true
+
+app.get('/style',(req,res)=>{
+  res.sendFile(path.join(__dirname, './../src/css', 'customStyle.css'));
+  console.log("wyslano style")
+});
+
+app.post(`/style`,(req,res)=>{
+  res.send("data received");
+
+  var cssString = "";
+  for (let key in req.body) {
+    // skip loop if the property is from prototype
+    if (!req.body.hasOwnProperty(key)) continue;
+
+    const obj = req.body[key];
+    var cssClassString="\n";
+    for (var prop in obj) {
+      // skip loop if the property is from prototype
+      if(!obj.hasOwnProperty(prop)) continue;
+
+      cssClassString += `${prop}:${ obj[prop]}; \n`;
     }
-  };
+    cssString += `.${key}{${cssClassString}} \n`
 
-  console.log(options.root)
 
-  var fileName = req.params.name;
-  res.sendFile("about.jpg", options, function (err) {
-    if (err) {
-      next(err);
-    } else {
-      console.log('Sent:', obrazek);
-    }
+  }
+// console.log(req.body);
+
+  fs.writeFile(path.join(__dirname, './../src/css', 'customStyle.css'), cssString, (err) => {
+    if (err) console.log(err);
+
+    console.log(cssString);
   });
+
 
 });
 
@@ -54,7 +90,7 @@ var filename = req.params.filename;
   }catch(e){
     console.log("User not include picture")
   }
-})
+});
 
 //POST MULTIPLE FILES
 app.post(`/files/:folderName/:fileName`,(req,res)=>{

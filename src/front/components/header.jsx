@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Phonebar from './phonebar'
 import Nav from './nav'
+import './../../css/customStyle.css'
 
 
 class Header extends Component {
@@ -8,10 +9,9 @@ class Header extends Component {
   state = {
     width: null,
     height: null,
+  };
 
-  }
-
-  saveRef = (ref) => this.containerNode = ref
+  saveRef = (ref) => this.containerNode = ref;
 
   measure() {
 
@@ -36,7 +36,8 @@ class Header extends Component {
 
   render() {
         return (
-            <div   ref={this.saveRef}>
+
+            <div ref={this.saveRef}>
                 <Phonebar/>
                 <Nav tabs={this.props.tabs} navName={this.props.navName} />
             </div>

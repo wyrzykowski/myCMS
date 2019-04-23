@@ -1,0 +1,24 @@
+.main-wrapper {
+  flex-direction: row;
+  display: flex;
+  flex: 1;
+}
+
+#content {
+  flex: 1;
+}
+
+.cos{
+	color:red;
+}
+
+ul {
+  padding: 20px 0;
+  flex: 1;
+}
+
+li {
+  font-family:'Lato';
+  color: whitesmoke;
+  line-height: 44px;
+}

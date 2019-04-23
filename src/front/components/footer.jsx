@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-
 class Footer extends Component {
     state={
         width: null,
@@ -43,14 +42,13 @@ class Footer extends Component {
     render() {
 
         const style={
-            backgroundColor: '#1A6A2C',
             inHeight: '100px',
 
             paddingTop:'2%',
         }
 
         return (
-          <div  ref={this.saveRef} className="container-fluid" style={style}>
+          <div  ref={this.saveRef} className="container-fluid footerColor" style={style}>
 
             <div className="row">
                 {
@@ -60,7 +58,7 @@ class Footer extends Component {
                         {
                             piece.type === "p" ?
                             piece.text.map(line=>
-                                <p style={{color:"#fff"}}key={line}>{line}</p>
+                                <p key={line}>{line}</p>
                             ): <img src={piece.text}/>
                         }
                     </div>

@@ -84,14 +84,12 @@ class EditGallery extends Form {
 
 
   doSubmit = async () => {
-
-
     const newImages = this.state.imageFiles.map(image=>{
     return {
       type: "img",
       text: image.fileName
     }
-    })
+    });
     var allImage;
     if(this.state.data.images)allImage =[...newImages,...this.state.data.images];
 
@@ -105,12 +103,12 @@ class EditGallery extends Form {
         }
       ]
 
-    }
+    };
 
     this.refs.btn.setAttribute("disabled", "disabled"); //prevent mutiple time button press
     await saveSubpage(dataToSave,"gallery").then(
       toast.success("Content Updated!")
-    )
+    );
 
     this.refs.btn.removeAttribute("disabled");
     // this.props.history.push("/edit-page");

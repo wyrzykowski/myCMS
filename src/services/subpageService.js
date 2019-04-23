@@ -7,7 +7,6 @@ export function saveSubpage(subpage,name) {
   console.log("sibapge",subpage)
   if (subpage._id) {//check if subpage body have ID if yes body belong to database
     //update existing subpage
-    console.log("im here")
     const body = { ...subpage };
     return http.patch(`/edit/${name}`, body);
   }
