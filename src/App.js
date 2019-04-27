@@ -13,6 +13,7 @@ import Gallery from './front/components/gallery';
 import NotFound404 from './front/components/not-found-404'
 import { getSubpage } from "./services/subpageService";
 import { ToastContainer } from "react-toastify";
+import LoginForm from "./dashboard/login-form";
 
 
 class App extends Component {

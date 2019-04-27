@@ -16,9 +16,10 @@ class Form extends Component {
 
 
   validate = () => {
-    //run after submit button clicked
+    //run after change?
     const options = { abortEarly: false };
     const { error } = Joi.validate(this.state.data, this.schema, options);
+    // console.log("validation err",error)
     if (!error) return null;
     const errors = {};
     for (let item of error.details) errors[item.path[0]] = item.message; // to mozna tez map'em zrobic
@@ -26,13 +27,12 @@ class Form extends Component {
   };
 
   validateProperty = ({ name, value }) => {
-    console.log(name);
-    console.log(value);
+    // console.log(name);
+    // console.log(value);
     // live checking text fields
     const obj = { [name]: value };
 
     const schema = { [name]: this.schema[name] }; // dynamiczne przypisze mi potrzebne lemnty z schema
-    console.log(obj);
     const { error } = Joi.validate(obj, schema); // chce tu robic abord early dlatego go tu nie pisze
     return error ? error.details[0].message : null;
   };
@@ -50,11 +50,12 @@ class Form extends Component {
     const errors = { ...this.state.errors }; //kopiuje state'a
     const errorMessage = this.validateProperty(input); //generuje error message przekazuje input'a calego
     if (errorMessage) errors[input.name] = errorMessage;
+
     //jesli istenieje jakis error to w tablice inputow dodaj tego error messagea
     else delete errors[input.name]; // jesli nie ma zadnegi errora to usun go z tablicy errorow
-
     // data destructuring bo uzywam tylko jednego
     const data = { ...this.state.data};
+
     data[input.name] = input.value;
     //console.log("input value",input.value)
     this.setState({ data, errors });
@@ -78,8 +79,8 @@ class Form extends Component {
 //For multiple files
   newFilesButtonOnClick(image){
     const imageFiles = this.state.imageFiles.filter(element=>{
-      return element!=image;
-    })
+      return element!==image;
+    });
 
     this.setState({imageFiles})
    // console.log("new i,ages",this.state.imageFiles)
@@ -87,7 +88,7 @@ class Form extends Component {
 
   oldFilesButtonOnClick(image){
     const images = this.state.data.images.filter(element=>{
-      return element!=image;
+      return element!==image;
     });
 
 
@@ -232,15 +233,19 @@ renderImage.then(()=>{
   }
 
 
-  renderSelect(name, label, options) {
+  renderSelect(name, label, options,defaultValue) {
     const { data, errors } = this.state;
+
     return (
       <Select
         name={name}
+        key={name}
         value={data[name]}
         label={label}
         options={options}
         onChange={this.handleChange}
+        setDefault={this.setDefault}
+        defaultValue={defaultValue}
         error={errors[name]}
       />
     );
@@ -251,6 +256,7 @@ renderImage.then(()=>{
     return (
       <Input
         type={type}
+        key={name}
         name={name}
         value={data[name]}
         label={label}
@@ -272,6 +278,24 @@ renderImage.then(()=>{
       />
     );
   }
+
+  // renderSelect(name,label,values,valuesNames) {
+  //   <div>
+  //     <label htmlFor={name}>{label}</label>
+  //
+  //     <select>
+  //       {
+  //         values.map(
+  //           <option value={values}>{valuesNames}</option>
+  //         )
+  //       }
+  //       <option value="">--Please choose an option--</option>
+  //
+  //     </select>
+  //   </div>
+  // }
+
+
 }
 
 export default Form;

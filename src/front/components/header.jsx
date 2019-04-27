@@ -32,7 +32,7 @@ class Header extends Component {
   handleHeight = () => {
     var height = this.state.height;
     this.props.onGetHeight(height);
-  }
+  };
 
   render() {
         return (

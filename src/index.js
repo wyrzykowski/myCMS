@@ -5,6 +5,7 @@ import App from './App';
 import Dashboard from './dashboard/dashboard'
 
 import * as serviceWorker from './serviceWorker';
+import LoginForm from "./dashboard/login-form";
 
 window.apiUri="http://localhost:3001/fakfajzer";//set Api Uri to be global and accessible by windows object
 
@@ -14,7 +15,7 @@ ReactDOM.render(
   <BrowserRouter>
 
     <Switch>
-
+      <Route path="/login" component={LoginForm}/>
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/" component={App} />
 

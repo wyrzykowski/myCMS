@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 class LeftNav extends Component {
   state={
     contents:[]
-  }
+  };
 
   componentDidMount() {
 
@@ -40,7 +40,21 @@ class LeftNav extends Component {
             </ul>
 
             <ul className="nav flex-column">
+              <h6
+                className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span> Menu:</span>
+                <a className="d-flex align-items-center text-muted" href="#">
+                </a>
+              </h6>
+              <li className="nav-item">
+                <Link className="nav-link" to="/dashboard/edit-main-menu">
+                  Menu główne
+                </Link>
+              </li>
+            </ul>
 
+
+            <ul className="nav flex-column">
             <h6
                 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                 <span> Wygląd:</span>
@@ -50,11 +64,6 @@ class LeftNav extends Component {
               <li className="nav-item">
                 <Link className="nav-link" to="/dashboard/edit-colors">
                   Ustaw kolory
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/dashboard/edit-text-styles">
-                  Styluj teksty
                 </Link>
               </li>
             </ul>

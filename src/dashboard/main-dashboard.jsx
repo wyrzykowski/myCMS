@@ -5,6 +5,7 @@ class MainDashboard extends Component {
     return (
       <div>
         <h1>Statistics</h1>
+        <p>will be added shortly.</p>
       </div>
     );
   }

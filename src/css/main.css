@@ -218,6 +218,30 @@ body {
     margin-left: 0%;
     opacity: 1; } }
 
+.login-form-body {
+  background-color: rgba(177, 229, 250, 0.58);
+  height: 100vh; }
+
+.login-form-container {
+  background-color: #ffffff;
+  padding: 2vw;
+  position: relative;
+  top: 20vh;
+  margin: auto;
+  height: 50Vh;
+  width: 30vw;
+  box-shadow: 3px 3px 5px #CCCCCC;
+  border: 1px solid #DDDDDD; }
+  .login-form-container h1 {
+    padding-top: 1vh;
+    text-align: center;
+    font-size: 1.5vw; }
+  .login-form-container .login-form-button {
+    padding-top: 1vh;
+    text-align: center; }
+    .login-form-container .login-form-button button {
+      width: 80%; }
+
 body html, body body, body div, body span, body applet, body object, body iframe, body h1, body h2, body h3, body h4, body h5, body h6, body p, body blockquote, body pre, body a, body abbr, body acronym, body address, body big, body cite, body code, body del, body dfn, body em, body font, body img, body ins, body kbd, body q, body s, body samp, body small, body strike, body strong, body sub, body sup, body tt, body var, body b, body u, body i, body center, body dl, body dt, body dd, body ol, body ul, body li, body fieldset, body form, body label, body legend, body caption {
   padding: 0;
   border: 0;
@@ -227,7 +251,7 @@ body html, body body, body div, body span, body applet, body object, body iframe
   background: transparent; }
 
 body #main-nav {
-  border-bottom: 1px solid #28A745; }
+  border-bottom: 1px solid; }
 
 body #offer {
   margin-left: 5%; }

@@ -22,15 +22,27 @@ axios.interceptors.response.use((response) => {
     // logger.log(error);
     toast.error("An unexpected error occured with connection.");
   }else{
-    toast.error("An error occured.");
+    switch (error.response.status) {
+      case 401 :  toast.error("You are not authorized!");
+        break;
+      case 400 :  toast.error("Wrong API path!");
+        break;
+      case 404 :  toast.error("Page not exists!");
+        break;
+      default:
+        toast.error("An error occured.");
+    }
+
   }
   return Promise.reject(error);
 });
 
 
-// function setJwt(jwt) {
-//   axios.defaults.headers.common["x-auth-token"] = jwt;
-// }
+function setJwt(jwt) {
+  console.log("jwt settes")
+  axios.defaults.headers.common["Authorization"] = jwt;
+}
+
 
 export default {
   get: axios.get,
@@ -38,5 +50,6 @@ export default {
   patch: axios.patch,
   put: axios.put,
   delete: axios.delete,
-  // setJwt
+  setJwt
+
 };
