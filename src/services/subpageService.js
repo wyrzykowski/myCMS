@@ -4,7 +4,6 @@ export function getSubpage(subpage) {
 }
 
 export function saveSubpage(subpage,name) {
-  console.log("sibapge",subpage)
   if (subpage._id) {//check if subpage body have ID if yes body belong to database
     //update existing subpage
     const body = { ...subpage };

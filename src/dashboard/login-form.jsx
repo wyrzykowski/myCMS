@@ -24,7 +24,6 @@ class LoginForm extends Form {
      const email = this.state.data.login;
      const password =this.state.data.password;
 
-
     login(email,password).then( (resData)=>{
       // localStorage.setItem("token",loginData.data.token);
       // console.log(loginData.data.token)

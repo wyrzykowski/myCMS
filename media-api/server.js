@@ -9,45 +9,22 @@ const port  = process.env.PORT;
 const cors = require("cors");
 const path = require('path');
 const obrazek="jeszcze nic";
+const auth = require('./middleware/auth');
+
 const convertToJpeg = require("./utils/convert-to-jpeg");
 // app.use(bodyParser.json()); //body parser will automatically parse JSON to object JS when req sth.
 app.use(bodyParser.json({limit: '50mb'}))// to use bigger file than 1mbprobably
 app.use(cors());
 
-
-
 const info ={name:'mycms-media-api',ver:' 1.0.0',dedicated:'Fakfajzer',author:'Karol Wyrzykowski'}
 const appName='fakfajzer';
 
-// app.get('/file', function (req, res, next) {
-//   var options = {
-//     root: './../public/',
-//     dotfiles: 'deny',
-//     headers: {
-//       'x-timestamp': Date.now(),
-//       'x-sent': true
-//     }
-//   };
-//
-//   console.log(options.root);
-//
-//   var fileName = req.params.name;
-//   res.sendFile("about.jpg", options, function (err) {
-//     if (err) {
-//       next(err);
-//     } else {
-//       console.log('Sent:', obrazek);
-//     }
-//   });
-// });
-
-
-app.get('/style',(req,res)=>{
+app.get('/style',auth,(req,res)=>{
   res.sendFile(path.join(__dirname, './../src/css', 'customStyle.css'));
   console.log("wyslano style")
 });
 
-app.post(`/style`,(req,res)=>{
+app.post(`/style`,auth,(req,res)=>{
   res.send("data received");
 
   var cssString = "";
@@ -79,7 +56,7 @@ app.post(`/style`,(req,res)=>{
 });
 
 
-app.post(`/file/:filename`,(req,res)=>{
+app.post(`/file/:filename`,auth,(req,res)=>{
 var filename = req.params.filename;
       res.send("file received");
       //console.log("received ",res)//
@@ -93,7 +70,7 @@ var filename = req.params.filename;
 });
 
 //POST MULTIPLE FILES
-app.post(`/files/:folderName/:fileName`,(req,res)=>{
+app.post(`/files/:folderName/:fileName`,auth,(req,res)=>{
   const folderName = req.params.folderName;
   const fileName = req.params.fileName;
   console.log("WYSLANE PLIKI",folderName,fileName);
@@ -112,7 +89,7 @@ app.post(`/files/:folderName/:fileName`,(req,res)=>{
   }
 })
 
-app.delete(`/files/:folderName/:fileName`,(req,res)=>{
+app.delete(`/files/:folderName/:fileName`,auth,(req,res)=>{
   try{
   const folderName = req.params.folderName;
   const fileName = req.params.fileName;

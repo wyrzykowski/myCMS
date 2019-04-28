@@ -1,9 +1,10 @@
-import axios from "axios";
 import { toast } from "react-toastify";
+import  axios from "axios";
 
+const mediaUri = "http://localhost:3008";
 
 export function sendStyle(data,callback) {
-  axios.post(`http://localhost:3008/style`,data)
+  axios.post(`${mediaUri}/style`,data)
     .then(function (response) {
       console.log(response);
       toast.success("Colors set.");
@@ -16,7 +17,7 @@ export function sendStyle(data,callback) {
 
 export function getStyle(url) {
   return new Promise(function(resolve, reject) {
-    axios.get(`http://localhost:3008/style`)
+    axios.get(`${mediaUri}/style`)
       .then(function(response) {
         console.log(response);
         resolve(response);
