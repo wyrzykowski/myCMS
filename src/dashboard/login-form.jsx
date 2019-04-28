@@ -28,8 +28,8 @@ class LoginForm extends Form {
     login(email,password).then( (resData)=>{
       // localStorage.setItem("token",loginData.data.token);
       // console.log(loginData.data.token)
-      this.props.history.push("/dashboard");
-        toast.success("Welcome in Dashboard!")
+        this.props.history.push("/dashboard/statistics");
+        toast.success("Welcome to Dashboard!")
     }).catch( e=>{
       console.log(e);
       }

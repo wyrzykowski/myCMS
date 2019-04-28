@@ -135,14 +135,15 @@ setMenuItems(){
           {
             this.state.pages && this.state.data.tabs &&  this.state.data[`pageValues${this.state.data.tabs.length-1}`] && this.state.data[`tabName${this.state.data.tabs.length-1}`] ? this.state.data.tabs.map((tab,index)=>{
 
-             return([
-              this.renderInput(`tabName${index}`, "Item name:"),
-              this.renderSelect(`pageValues${index}`, "Item link:", this.state.pages),
-               <hr/>,
-               <br/>,
-
+             return(
+               [
+               <div key={index}>
+                 { this.renderInput(`tabName${index}`, "Item name:")}
+                 { this.renderSelect(`pageValues${index}`, "Item link:", this.state.pages)}
+               </div>,
+               <hr key={index+"hr"}/>,
+               <br key={index+"br"}/>,
             ])
-
 
             }) : ""
           }

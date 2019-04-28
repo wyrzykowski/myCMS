@@ -33,8 +33,8 @@ class LeftNav extends Component {
                 </a>
               </h6>
               <li className="nav-item">
-                <Link className="nav-link" to="/dashboard/main-settings">
-                  Główne ustawienia
+                <Link className="nav-link" to="/dashboard/statistics">
+                  Statystyki
                 </Link>
               </li>
             </ul>
@@ -78,8 +78,8 @@ class LeftNav extends Component {
             <ul className="nav flex-column mb-1">
               {
                 this.state.contents.map(content=>
-                  <li className="nav-item">
-                    <Link className="nav-link" to={`/dashboard/${content.link}`}>
+                  <li key={content.name} className="nav-item">
+                    <Link  className="nav-link" to={`/dashboard/${content.link}`}>
                       {content.name}
                     </Link>
                   </li>

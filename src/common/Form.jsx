@@ -251,12 +251,12 @@ renderImage.then(()=>{
     );
   }
 
-  renderInput(name, label, type) {
+  renderInput(name, label, type,key) {
     const { data, errors } = this.state;
     return (
       <Input
         type={type}
-        key={name}
+        key={key}
         name={name}
         value={data[name]}
         label={label}

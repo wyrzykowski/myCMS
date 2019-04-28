@@ -19,6 +19,9 @@ import LoginForm from "./login-form";
 import auth from "../services/authService";
 import { getUserInfo } from "../services/userService";
 import Logout from "./logout";
+import ProtectedRoute from "../common/protectedRoute";
+import Statistics from "./statistics";
+import DashboardNotFound from "./DashboardNotFound";
 class Dashboard extends Component {
 
   state={
@@ -61,20 +64,21 @@ class Dashboard extends Component {
                 <h1 className="h2">Dashboard</h1>
                 <h5>Logged as: {this.state.user ? this.state.userName: ""}</h5>
               </div>
-
               <Switch>
-                  <Route path="/dashboard/edit-content" component={EditContentStyle}/>
-                  <Route path = "/dashboard/edit-colors" component={EditColors}/>
-                  <Route path="/dashboard/edit-text-styles" component={EditTextStyles}/>
-                  <Route path="/dashboard/edit-about" component={EditAbout}/>
-                  <Route path="/dashboard/edit-contact" component={EditContact}/>
-                  <Route path="/dashboard/edit-gallery" component={EditGallery}/>
-                  <Route path="/dashboard/edit-landing-page" component={EditLandingPage}/>
-                  <Route path="/dashboard/edit-offer" component={EditOffer}/>
-                  <Route path="/dashboard/edit-main-menu" component={EditMainMenu}/>
-                  <Route path="/dashboard/logout" component={Logout}/>
-                  <Route path="/dashboard/main-settings" component={MainDashboard}/>
+                <ProtectedRoute path="/dashboard/edit-content" component={EditContentStyle}/>
+                <ProtectedRoute path="/dashboard/edit-colors" component={EditColors}/>
+                <ProtectedRoute path="/dashboard/edit-text-styles" component={EditTextStyles}/>
+                <ProtectedRoute path="/dashboard/edit-about" component={EditAbout}/>
+                <ProtectedRoute path="/dashboard/edit-contact" component={EditContact}/>
+                <ProtectedRoute path="/dashboard/edit-gallery" component={EditGallery}/>
+                <ProtectedRoute path="/dashboard/edit-landing-page" component={EditLandingPage}/>
+                <ProtectedRoute path="/dashboard/edit-offer" component={EditOffer}/>
+                <ProtectedRoute path="/dashboard/edit-main-menu" component={EditMainMenu}/>
+                <ProtectedRoute path="/dashboard/logout" component={Logout}/>
+                <ProtectedRoute path="/dashboard/statistics" component={Statistics}/>
+
               </Switch>
+
             </main>
           </div>
         </div>
