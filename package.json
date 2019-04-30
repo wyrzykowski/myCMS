@@ -8,6 +8,7 @@
     "base64-img": "^1.0.4",
     "bootstrap": "^4.1.1",
     "chart.js": "^2.8.0",
+    "concurrently": "^4.1.0",
     "cors": "^2.8.5",
     "css": "^2.2.4",
     "draft-js": "^0.10.5",
@@ -35,7 +36,7 @@
     "transform-css-to-js": "^0.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"react-scripts start\" \"node media-api/server.js\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
