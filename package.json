@@ -16,6 +16,7 @@
     "html-to-draftjs": "latest",
     "imagemin": "^6.1.0",
     "immutability-helper": "^3.0.0",
+    "joi-browser": "^13.4.0",
     "js-to-css": "^1.0.2",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
