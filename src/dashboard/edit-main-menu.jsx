@@ -25,42 +25,42 @@ class EditMainMenu extends Form {
     navName: Joi.any(),
     tabs: Joi.any()
   };
-async componentDidMount(){
-  await this.getMainMenu();
-  await this.getPages();
-  this.setMenuItems();
+  async componentDidMount(){
+    await this.getMainMenu();
+    await this.getPages();
+    this.setMenuItems();
 
-}
+  }
 
-setMenuItems(){
-  //assign to menu list select from
-  console.log("set menu item");
-  var state = {...this.state};
-  console.log("HERE",this.state.tabs);
-  this.state.data.tabs.map((tab,index)=>{
+  setMenuItems(){
+    //assign to menu list select from
+    console.log("set menu item");
+    var state = {...this.state};
+    console.log("HERE",this.state.tabs);
+    this.state.data.tabs.map((tab,index)=>{
 
-    const pagesElement = this.state.pages.map((page)=> {
-      return {
-        _id: page._id,
-        name: page.name
-      }
-    });
-    state.data[`tabName${index}`] = tab.name;
-    state[`page${index}`] =pagesElement;
+      const pagesElement = this.state.pages.map((page)=> {
+        return {
+          _id: page._id,
+          name: page.name
+        }
+      });
+      state.data[`tabName${index}`] = tab.name;
+      state[`page${index}`] =pagesElement;
 
 
-    //set data.pagesValues
-    const pagesElementValues = tab.link;
-    state.data[`pageValues${index}`] =pagesElementValues;
-    this.setState(state);
-    this.schema[`pageValues${index}`] = Joi.string().min(1);
-    this.schema[`tabName${index}`] = Joi.string().min(1);
-    // this.schema[`pageValues${index}`] = Joi.any();
-    // this.schema[`tabName${index}`] = Joi.any();
+      //set data.pagesValues
+      const pagesElementValues = tab.link;
+      state.data[`pageValues${index}`] =pagesElementValues;
+      this.setState(state);
+      this.schema[`pageValues${index}`] = Joi.string().min(1);
+      this.schema[`tabName${index}`] = Joi.string().min(1);
+      // this.schema[`pageValues${index}`] = Joi.any();
+      // this.schema[`tabName${index}`] = Joi.any();
 
-  })
+    })
 
-}
+  }
 
   async getMainMenu() {
     //Get main menu name
@@ -77,34 +77,39 @@ setMenuItems(){
 
 
   async getPages() {
-    //Get all pages
-    const { data } = await getPages('all');
-    const pages = data;
-    const pagesValues = pages.map(page=>page.page_link);
-    const pagesName = pages.map(page=>{
-      return {
-        _id: page.page_link,
-        name: page.page_name
-      }
-    });
 
-    this.setState({
-      pages:pagesName,
-      data: {
-        ...this.state.data
-      }
-    });
+    //Get all pages
+    try {
+      const { data } = await getPages('all');
+      const pages = data;
+      const pagesValues = pages.map(page => page.page_link);
+      const pagesName = pages.map(page => {
+        return {
+          _id: page.page_link,
+          name: page.page_name
+        }
+      });
+
+      this.setState({
+        pages: pagesName,
+        data: {
+          ...this.state.data
+        }
+      });
+    }catch(e){
+      toast.error("Cannot get Data!, please reload page.")
+    }
   }
 
 
   doSubmit = async () => {
 
- const content = this.state.pages.map((page,index)=>{
-   return {
-     name:this.state.data[`tabName${index}`],
-     link:this.state.data[`pageValues${index}`]
-   }
-  });
+    const content = this.state.pages.map((page,index)=>{
+      return {
+        name:this.state.data[`tabName${index}`],
+        link:this.state.data[`pageValues${index}`]
+      }
+    });
 
 
 
@@ -115,7 +120,7 @@ setMenuItems(){
     };
 
     await saveMenu(dataToSave,"main_nav").then( ()=>{
-        toast.success("Content Updated!")
+      toast.success("Content Updated!")
     }).catch(e=>{
       console.log("error")
     })
@@ -135,15 +140,15 @@ setMenuItems(){
           {
             this.state.pages && this.state.data.tabs &&  this.state.data[`pageValues${this.state.data.tabs.length-1}`] && this.state.data[`tabName${this.state.data.tabs.length-1}`] ? this.state.data.tabs.map((tab,index)=>{
 
-             return(
-               [
-               <div key={index}>
-                 { this.renderInput(`tabName${index}`, "Item name:")}
-                 { this.renderSelect(`pageValues${index}`, "Item link:", this.state.pages)}
-               </div>,
-               <hr key={index+"hr"}/>,
-               <br key={index+"br"}/>,
-            ])
+              return(
+                [
+                  <div key={index}>
+                    { this.renderInput(`tabName${index}`, "Item name:")}
+                    { this.renderSelect(`pageValues${index}`, "Item link:", this.state.pages)}
+                  </div>,
+                  <hr key={index+"hr"}/>,
+                  <br key={index+"br"}/>,
+                ])
 
             }) : ""
           }

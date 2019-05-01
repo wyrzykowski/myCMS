@@ -11,7 +11,7 @@ class EditOffer extends ControlledEditor {
   state={
     imageFile:false,
     pageId:false
-  }
+  };
 
   async componentDidMount() {
     await this.populateContent();
@@ -32,13 +32,15 @@ class EditOffer extends ControlledEditor {
 
 
   async populateContent() {
-
-    const { data } = await getSubpage('onas');
-    //const jsonData = JSON.stringify(data[0].block[0].content);
-    const editorState = EditorState.createWithContent(
-      convertFromRaw(JSON.parse(data[0].block)));//parse from string to object
-    this.setState({editorState,pageId:data[0]._id})
-
+try {
+  const { data } = await getSubpage('onas');
+  //const jsonData = JSON.stringify(data[0].block[0].content);
+  const editorState = EditorState.createWithContent(
+    convertFromRaw(JSON.parse(data[0].block)));//parse from string to object
+  this.setState({ editorState, pageId: data[0]._id })
+}catch(e){
+  toast.error("Page not Exists!")
+}
   }
   sendImageToApi(){
     var fileData = this.state.imageFile;

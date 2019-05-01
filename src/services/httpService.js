@@ -1,9 +1,9 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 // import logger from "./logService.js";
-// http://localhost:3001
+// http://localhost:3001/fakfajzer
 // https://my-cms-api001.herokuapp.com/fakfajzer
-axios.defaults.baseURL = "http://localhost:3001/fakfajzer"; //process.env.REACT_APP_API_URL;
+axios.defaults.baseURL = "https://my-cms-api001.herokuapp.com/fakfajzer"; //process.env.REACT_APP_API_URL;
 // logger.init(); // initalisation my own logService module
 
 

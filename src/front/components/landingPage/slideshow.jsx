@@ -25,31 +25,36 @@ class Slideshow extends Component {
     async componentDidMount() {
 
 
-        const {data} = await getSubpage('home');
+        const { data } = await getSubpage('home');
         var content;
-        if( data.length===0) content = false; //if can't fetch data set false to avoid error occur
+        if (data.length === 0) content = false; //if can't fetch data set false to avoid error occur
         else content = data[0];
-        this.setState({content});
-        var slides=[];
+        this.setState({ content });
+        var slides = [];
+        try {
+            content.block[0].content.map(slide => {
+                slides.push(
+                  {
+                      slide: `${slide.text}`,
+                      style: { opacity: '0' },
+                      className: "imageHolder"
+                  }
+                )
+            })
+            this.setState({ slides });
+            this.setTimer();
 
-        content.block[0].content.map(slide=>{
-            slides.push(
-              {
-                  slide: `${slide.text}`,
-                  style: { opacity: '0' },
-                  className: "imageHolder"
-              }
-            )
-        })
-        this.setState({slides});
-        this.setTimer();
+
+            //To set new window.innerWidth when user resize window
+            window.addEventListener("resize", this.updateDimensions);
+            //Run initialization of slider
 
 
-        //To set new window.innerWidth when user resize window
-        window.addEventListener("resize", this.updateDimensions);
-        //Run initialization of slider
-
+        } catch (e) {
+            console.log("error")
+        }
     }
+
 
     //To set new window.innerWidth when user resize window
     updateDimensions=() => {

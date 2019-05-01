@@ -5,7 +5,6 @@ import {getSubpage} from './../services/subpageService';
 class Statistics extends DrawChart {
   async componentDidMount() {
     await this.getStatistics();
-    console.log(this.state.statisticsDataLabel,this.state.statisticsDataValue);
     this.updateCanvas()
   }
 
