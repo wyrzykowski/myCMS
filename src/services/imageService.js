@@ -1,8 +1,8 @@
 import  axios from "axios";
 
 var mediaUri;
-if(process.env.MEDIA_URI){
-  mediaUri = process.env.MEDIA_URI;
+if(process.env.REACT_APP_MEDIA_URI){
+  mediaUri = process.env.REACT_APP_MEDIA_URI;
 }else{
   mediaUri = "http://localhost:3008";
 }

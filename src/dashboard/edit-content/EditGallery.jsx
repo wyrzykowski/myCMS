@@ -8,8 +8,8 @@ import { sendImage,deleteImage } from "../../services/imageService";
 class EditGallery extends Form {
   constructor(){
     super();
-    if(process.env.imageUri){
-      this.state.imageUri=process.env.imageUri;
+    if(process.env.REACT_APP_MEDIA_URI){
+      this.state.imageUri=process.env.REACT_APP_MEDIA_URI;
     }else{
       this.state.imageUri="http://localhost:3008"
     }

@@ -1,8 +1,8 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 // import logger from "./logService.js";
-if(process.env.MEDIA_URI){
-  axios.defaults.baseURL = process.env.MEDIA_URI;
+if(process.env.REACT_APP_MEDIA_URI){
+  axios.defaults.baseURL = process.env.REACT_APP_MEDIA_URI;
 }else{
   axios.defaults.baseURL = "http://localhost:3008";
 }
