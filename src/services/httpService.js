@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 // axios.defaults.baseURL = "http://localhost:3001/fakfajzer"; //process.env.REACT_APP_API_URL;
 // logger.init(); // initalisation my own logService module
 
-if(process.env.MEDIA_URI){
+if(process.env.API_URI){
   axios.defaults.baseURL = process.env.API_URI;
 }else{
   axios.defaults.baseURL = "http://localhost:3001/fakfajzer";
