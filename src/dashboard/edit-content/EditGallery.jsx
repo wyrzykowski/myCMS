@@ -6,7 +6,17 @@ import { toast } from "react-toastify";
 import { sendImage,deleteImage } from "../../services/imageService";
 
 class EditGallery extends Form {
+  constructor(){
+    super();
+    if(process.env.imageUri){
+      this.state.imageUri=process.env.imageUri;
+    }else{
+      this.state.imageUri="http://localhost:3008"
+    }
+  }
+
   state = {
+    imageUri:"",
     imagesFolder:"img",
     dataToSaveOnDisk:{
       newImages: [],
@@ -26,6 +36,7 @@ class EditGallery extends Form {
     images: Joi.any()
 
   };
+
 
   componentDidMount() {
     this.populateContent();
@@ -65,7 +76,7 @@ class EditGallery extends Form {
   }
 
   deleteImageFromApi() {
-    // DELETE IMAGE
+    // DELETE IMAGE FROM MEDIA API
     this.state.dataToSaveOnDisk.deletedImages.map(file => {
       const url = `files/${file.text}`
       const someData = null;
@@ -84,14 +95,16 @@ class EditGallery extends Form {
 
 
   doSubmit = async () => {
+    //Send image to content API(database)
     const newImages = this.state.imageFiles.map(image=>{
     return {
       type: "img",
-      text: image.fileName
+      text: image.filePath
     }
     });
     var allImage;
-    if(this.state.data.images)allImage =[...newImages,...this.state.data.images];
+    if(this.state.data.images) allImage =[...newImages,...this.state.data.images];
+
 
     const dataToSave= {
       _id:this.state.pageId,
@@ -117,9 +130,10 @@ class EditGallery extends Form {
    //Save image which should be save to disk
 
     //Create object with File data and file Name
-    var imagesToSaveOnDisk = newImages.map((image,index)=>{
+    var imagesToSaveOnDisk = this.state.imageFiles.map((image,index)=>{
+
       return {
-        fileName: image.text,
+        fileName: image.fileName,
         fileData: this.state.imageFiles[index].content
       }
     })
@@ -130,6 +144,7 @@ class EditGallery extends Form {
     //Save only New Images to Disk using API:
     this.sendImageToApi();
     this.deleteImageFromApi();
+    setTimeout(()=>{ this.forceUpdate();},5000)
   };
 
 

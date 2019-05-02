@@ -27,7 +27,7 @@ class Contact extends Component {
   render() {
     const style={
       minHeight:window.innerHeight-this.props.height,
-      background: `url(./backgrounds/${this.state.background})  no-repeat left center fixed `,
+      background: `url(${this.state.background})  no-repeat left center fixed `,
 
 
     }

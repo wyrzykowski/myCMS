@@ -9,6 +9,7 @@ import { sendImage } from "../../services/imageService";
 
 class EditOffer extends ControlledEditor {
   state={
+    imageUri:"",
     imageFile:false,
     pageId:false
   }
@@ -20,13 +21,20 @@ class EditOffer extends ControlledEditor {
   constructor(props) {
     const DBEditorState={"entityMap":{},"blocks":[{"key":"637gr","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
     super(props);
+    this.state = {
+      editorState,
+    };
+
+    if(process.env.imageUri){
+      this.state.imageUri=process.env.imageUri;
+    }else{
+      this.state.imageUri="http://localhost:3008"
+    }
+
     const editorState = EditorState.createWithContent(
       convertFromRaw(DBEditorState));
 
-    this.state = {
-      editorState,
 
-    };
 
   }
 
@@ -50,8 +58,10 @@ class EditOffer extends ControlledEditor {
     }catch(e){
       console.log(e)}
   }
+
   doSubmit = async () => {
     const dataToSave= {
+      background:`${this.state.imageUri}/backgrounds/offer.jpg`,
       _id:this.state.pageId,
       block: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())),
     };

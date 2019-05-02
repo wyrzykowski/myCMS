@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Phonebar from './phonebar'
 import Nav from './nav'
-import './../../css/customStyle.css'
+
 
 
 class Header extends Component {

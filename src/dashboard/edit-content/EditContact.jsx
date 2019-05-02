@@ -10,6 +10,7 @@ import FileButton from "../../common/FileButton";
 
 class EditContact extends ControlledEditor{
   state={
+    imageUri:"",
     imageFile:false,
     pageId:false
   }
@@ -20,16 +21,20 @@ class EditContact extends ControlledEditor{
   }
 
   constructor(props) {
+
     const DBEditorState={"entityMap":{},"blocks":[{"key":"637gr","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
     super(props);
-    const editorState = EditorState.createWithContent(
-      convertFromRaw(DBEditorState));
-
     this.state = {
       editorState,
-
     };
+    if(process.env.imageUri){
+      this.state.imageUri=process.env.imageUri;
+    }else{
+      this.state.imageUri="http://localhost:3008"
+    }
 
+    const editorState = EditorState.createWithContent(
+      convertFromRaw(DBEditorState));
   }
 
 
@@ -59,6 +64,7 @@ class EditContact extends ControlledEditor{
   doSubmit = async () => {
 
     const dataToSave= {
+      background:`${this.state.imageUri}/backgrounds/contact.jpg`,
       _id:this.state.pageId,
       block: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())),
     }

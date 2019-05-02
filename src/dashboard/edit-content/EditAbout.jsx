@@ -17,6 +17,7 @@ class EditOffer extends ControlledEditor {
     await this.populateContent();
   }
 
+
   constructor(props) {
     const DBEditorState={"entityMap":{},"blocks":[{"key":"637gr","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
     super(props);
@@ -27,7 +28,11 @@ class EditOffer extends ControlledEditor {
       editorState,
 
     };
-
+    if(process.env.imageUri){
+      this.state.imageUri=process.env.imageUri;
+    }else{
+      this.state.imageUri="http://localhost:3008"
+    }
   }
 
 
@@ -45,7 +50,7 @@ try {
   sendImageToApi(){
     var fileData = this.state.imageFile;
     //here send file to API
-    const url = "file/about";
+    const url = `file/about`;
 
     const formData = { file: fileData }
     try {
@@ -55,6 +60,7 @@ try {
   }
   doSubmit = async () => {
     const dataToSave= {
+      background:`${this.state.imageUri}/backgrounds/about.jpg`,
       _id:this.state.pageId,
       block: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())),
     }

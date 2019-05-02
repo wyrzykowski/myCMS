@@ -87,12 +87,16 @@ class Form extends Component {
   }
 
   oldFilesButtonOnClick(image){
+
+    console.log(this.state.data.images)
+    console.log("image",image)
     const images = this.state.data.images.filter(element=>{
       return element!==image;
     });
 
-
+//To delete file from external APi  remove media-api URL from image path(text)
     var deletedImages = this.state.dataToSaveOnDisk.deletedImages;
+    image.text = image.text.replace(this.state.imageUri, ".");
     deletedImages = [...deletedImages,image]
     let dataToSaveOnDisk = this.state.dataToSaveOnDisk;
     dataToSaveOnDisk = {...dataToSaveOnDisk,deletedImages}
@@ -107,6 +111,7 @@ class Form extends Component {
 
  onFilesButtonChange(e){
 const imageFolder = this.state.imagesFolder;
+const imageUri = this.state.imageUri;
     var imageFiles = this.state.imageFiles;
     //here map and foreach not working!
   for(let i = 0;i<e.target.files.length;i++){
@@ -121,7 +126,9 @@ const imageFolder = this.state.imagesFolder;
             console.log("img folderL",imageFolder);
             const newImage = {
               content:e.target.result,
-              fileName: `./${imageFolder}/` + uniqueName + ".jpg"
+
+              fileName:   `./${imageFolder}/` + uniqueName + ".jpg",
+              filePath:  `${imageUri}/${imageFolder}/` + uniqueName + ".jpg"
             }
 
             imageFiles = [...imageFiles, newImage];
@@ -186,6 +193,7 @@ renderImage.then(()=>{
 
 
 
+//For Gallery
   renderFilesButton(name,label,manageName="Manage gallery:") {
    // console.log("old2",this.state.data.images)
     return (
@@ -204,6 +212,7 @@ renderImage.then(()=>{
 
               <div key={image.fileName} className="container_thumbnail border border-light" onClick={()=>{this.newFilesButtonOnClick(image)}}>
                 <img src={image.content} alt="image" className="image_thumbnail"/>
+
                 <div className="overlay_thumbnail">
                   <div className="text_thumbnail">Delete</div>
                 </div>
@@ -214,16 +223,19 @@ renderImage.then(()=>{
           <div style={{clear:"both"}}></div>
 
           <p>Images already published:</p>
-          {
-            this.state.data.images ? this.state.data.images.map( image => (
+          { this.state.data.images ?   this.state.data.images.map( image => (
               <div  key={image+Math.random()} className="container_thumbnail border border-light" onClick={()=>{this.oldFilesButtonOnClick(image)}}>
-                <img src={__dirname + image.text} alt="image" className="image_thumbnail"/>
+                <img src={image.text} alt={"image"} className="image_thumbnail"/>
                 <div className="overlay_thumbnail">
+
                   <div className="text_thumbnail">Delete</div>
                 </div>
               </div>
-              )
-            ):<p></p>
+            )
+          ) : ""}
+          {
+
+
           }
 
           <div style={{clear:"both"}}></div>

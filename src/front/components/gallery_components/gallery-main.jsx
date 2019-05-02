@@ -18,6 +18,7 @@ class GalleryMain extends Component {
  componentDidMount() {
  this.props.getImages((images)=>{
    this.setState({images})
+   console.log(this.state.images)
  });
    this.setState({images:this.props.images})
   }

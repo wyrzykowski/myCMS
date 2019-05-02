@@ -4,10 +4,11 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import App from './App';
 import Dashboard from './dashboard/dashboard'
 import ProtectedRoute from './common/protectedRoute'
-
+import remotestyle from './css/remotestyle.css'
 import * as serviceWorker from './serviceWorker';
 import LoginForm from "./dashboard/login-form";
 import Statistics from "./dashboard/statistics";
+
 
 window.apiUri="http://localhost:3001/fakfajzer";//set Api Uri to be global and accessible by windows object
 

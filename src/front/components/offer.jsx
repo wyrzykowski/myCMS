@@ -26,7 +26,7 @@ class Offer extends Component {
   render() {
     console.log(this.state.content)
     const style={
-      backgroundImage: `url(./backgrounds/${this.state.background}) `,
+      backgroundImage: `url(${this.state.background})`,
       minHeight:window.innerHeight-this.props.height,
 
     }

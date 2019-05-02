@@ -39,6 +39,15 @@ class EditLandingPage extends Form {
     someInfoRightLink: Joi.string(),
   };
 
+  constructor(){
+    super();
+    if(process.env.imageUri){
+      this.state.imageUri=process.env.imageUri;
+    }else{
+      this.state.imageUri="http://localhost:3008"
+    }
+  }
+
   componentDidMount() {
     this.populateContent();
   }
@@ -104,10 +113,12 @@ class EditLandingPage extends Form {
 
 
   doSubmit = async () => {
+
+
     const newImages = this.state.imageFiles.map(image=>{
       return {
         type: "img",
-        text: image.fileName
+        text: image.filePath
       }
     });
     var allImage;
@@ -151,9 +162,9 @@ class EditLandingPage extends Form {
     //Save image which should be save to disk
 
     //Create object with File data and file Name
-    var imagesToSaveOnDisk = newImages.map((image,index)=>{
+    var imagesToSaveOnDisk = this.state.imageFiles.map((image,index)=>{
       return {
-        fileName: image.text,
+        fileName: image.fileName,
         fileData: this.state.imageFiles[index].content
       }
     })
@@ -164,6 +175,10 @@ class EditLandingPage extends Form {
     //Save only New Images to Disk using API:
     this.sendImageToApi();
     this.deleteImageFromApi();
+
+    //to display imges which are not loaded yet
+    setTimeout(()=>{ this.forceUpdate();},5000)
+
   };
 
 
