@@ -37,29 +37,32 @@ class EditMainMenu extends Form {
     console.log("set menu item");
     var state = {...this.state};
     console.log("HERE",this.state.tabs);
-    this.state.data.tabs.map((tab,index)=>{
+    try {
+      this.state.data.tabs.map((tab, index) => {
 
-      const pagesElement = this.state.pages.map((page)=> {
-        return {
-          _id: page._id,
-          name: page.name
-        }
-      });
-      state.data[`tabName${index}`] = tab.name;
-      state[`page${index}`] =pagesElement;
+        const pagesElement = this.state.pages.map((page) => {
+          return {
+            _id: page._id,
+            name: page.name
+          }
+        });
+        state.data[`tabName${index}`] = tab.name;
+        state[`page${index}`] = pagesElement;
 
 
-      //set data.pagesValues
-      const pagesElementValues = tab.link;
-      state.data[`pageValues${index}`] =pagesElementValues;
-      this.setState(state);
-      this.schema[`pageValues${index}`] = Joi.string().min(1);
-      this.schema[`tabName${index}`] = Joi.string().min(1);
-      // this.schema[`pageValues${index}`] = Joi.any();
-      // this.schema[`tabName${index}`] = Joi.any();
+        //set data.pagesValues
+        const pagesElementValues = tab.link;
+        state.data[`pageValues${index}`] = pagesElementValues;
+        this.setState(state);
+        this.schema[`pageValues${index}`] = Joi.string().min(1);
+        this.schema[`tabName${index}`] = Joi.string().min(1);
+        // this.schema[`pageValues${index}`] = Joi.any();
+        // this.schema[`tabName${index}`] = Joi.any();
 
-    })
-
+      })
+    }catch(e){
+      console.log("error");
+    }
   }
 
   async getMainMenu() {
