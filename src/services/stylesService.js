@@ -1,7 +1,12 @@
 import { toast } from "react-toastify";
 import  axios from "axios";
+var mediaUri;
+if(process.env.MEDIA_URI){
+   mediaUri = process.env.MEDIA_URI;
+}else{
+   mediaUri = "http://localhost:3008";
+}
 
-const mediaUri = "http://localhost:3008";
 
 export function sendStyle(data,callback) {
   axios.post(`${mediaUri}/style`,data)

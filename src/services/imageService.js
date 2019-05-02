@@ -1,5 +1,12 @@
 import  axios from "axios";
-const mediaUri = "http://localhost:3008";
+
+var mediaUri;
+if(process.env.MEDIA_URI){
+  mediaUri = process.env.MEDIA_URI;
+}else{
+  mediaUri = "http://localhost:3008";
+}
+
 
 export function sendImage(url, data,callback) {
   console.log("Sending image2...")

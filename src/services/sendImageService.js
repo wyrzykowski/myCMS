@@ -1,8 +1,12 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 // import logger from "./logService.js";
-
-axios.defaults.baseURL = "http://localhost:3008"; //process.env.REACT_APP_API_URL;
+if(process.env.MEDIA_URI){
+  axios.defaults.baseURL = process.env.MEDIA_URI;
+}else{
+  axios.defaults.baseURL = "http://localhost:3008";
+}
+//
 // logger.init(); // initalisation my own logService module
 
 //This will execute when got response with an error
