@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { getSubpage } from "../../services/subpageService";
+
 class Footer extends Component {
     state={
         width: null,
@@ -23,19 +25,18 @@ class Footer extends Component {
         })
     }
 
-    componentDidMount() {
-        this.measure()
+    async componentDidMount() {
 
-        fetch(`${window.apiUri}/footer`)
-          .then(res => res.json())
-          .then(contentArray => {
-                const content = contentArray[0].block[0].content;
-                this.setState({content})
+       const {data} = await getSubpage('footer')
 
-            }
-          ).catch(error => {
-            this.setState({ content: false })
-        })
+                const content = data[0].block[0].content;
+       if(content){
+           this.setState({content})
+       }else{
+           this.setState({content:false})
+       }
+
+
     }
 
 
