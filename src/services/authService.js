@@ -11,6 +11,10 @@ export async function login(email,password) {
   console.log("TOKEN:",localStorage.getItem("token"));
 }
 
+export function getAuthToken(){
+  return localStorage.getItem("token");
+}
+
 export function logout() {
   localStorage.removeItem(tokenKey);
 }

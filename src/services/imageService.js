@@ -1,4 +1,5 @@
 import  axios from "axios";
+import { getAuthToken } from "./authService";
 
 var mediaUri;
 if(process.env.REACT_APP_MEDIA_URI){
@@ -8,9 +9,13 @@ if(process.env.REACT_APP_MEDIA_URI){
 }
 
 
+
 export function sendImage(url, data,callback) {
-  console.log("Sending image2...")
-  axios.post(`${mediaUri}/${url}`,data)
+  const authToken= {token:getAuthToken()};
+  const dataToSave = {image: data, ...authToken};
+  console.log("Sending image2...");
+
+  axios.post(`${mediaUri}/${url}`,dataToSave)
     .then(function (response) {
       console.log(response);
     }).then(callback)
@@ -20,8 +25,10 @@ export function sendImage(url, data,callback) {
 }
 
 export function deleteImage(url, data,callback) {
+  const authToken= {token:getAuthToken()};
+  const dataToSave = {...authToken};
   console.log("Deleting image2...")
-  axios.delete(`${mediaUri}/${url}`,data)
+  axios.delete(`${mediaUri}/${url}`,{ data: dataToSave })
     .then(function (response) {
       console.log(response);
     }).then(callback)
