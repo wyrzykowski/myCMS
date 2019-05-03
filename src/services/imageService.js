@@ -2,12 +2,12 @@ import  axios from "axios";
 import { getAuthToken } from "./authService";
 
 var mediaUri;
+
 if(process.env.REACT_APP_MEDIA_URI){
   mediaUri = process.env.REACT_APP_MEDIA_URI;
 }else{
   mediaUri = "http://localhost:3008";
 }
-
 
 
 export function sendImage(url, data,callback) {
