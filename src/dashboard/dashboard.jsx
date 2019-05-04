@@ -22,6 +22,7 @@ import Logout from "./logout";
 import ProtectedRoute from "../common/protectedRoute";
 import Statistics from "./statistics";
 import DashboardNotFound from "./DashboardNotFound";
+import EditPhoneBar from "./edit-phone-bar";
 class Dashboard extends Component {
 
   state={
@@ -76,6 +77,8 @@ class Dashboard extends Component {
                 <ProtectedRoute path="/dashboard/edit-main-menu" component={EditMainMenu}/>
                 <ProtectedRoute path="/dashboard/logout" component={Logout}/>
                 <ProtectedRoute path="/dashboard/statistics" component={Statistics}/>
+                <ProtectedRoute path="/dashboard/edit-phone-bar" component={EditPhoneBar}/>
+
 
               </Switch>
 

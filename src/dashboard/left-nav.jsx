@@ -37,6 +37,11 @@ class LeftNav extends Component {
                   Statystyki
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/dashboard/edit-phone-bar">
+                  Belka z nr Telefonu
+                </Link>
+              </li>
             </ul>
 
             <ul className="nav flex-column">

@@ -1,17 +1,22 @@
 import React, {Component} from 'react';
+import { getSubpage } from "../../services/subpageService";
 
 class Phonebar extends Component {
     state={
-        phoneNumber: 'Kontakt: 692 622 745'
+        phoneBar: ''
+    };
+
+    async componentDidMount() {
+        const {data} = await getSubpage('phone_bar');
+
+        this.setState({phoneBar:data[0].block[0].content});
     }
-
-
     render() {
 
 
         return (
             <div className={"topBeamColor"}>
-                <h3 style={{paddingBottom:"1px", margin:"0"}}>{this.state.phoneNumber}</h3>
+                <h3 style={{paddingBottom:"1px", margin:"0"}}>{this.state.phoneBar ? this.state.phoneBar : ""}</h3>
             </div>
         );
     }
