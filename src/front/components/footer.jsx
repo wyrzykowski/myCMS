@@ -60,7 +60,7 @@ class Footer extends Component {
                             piece.type === "p" ?
                             piece.text.map(line=>
                                 <p key={line}>{line}</p>
-                            ): <img src={piece.text} style={{maxWidth:"99vw"}}/>
+                            ): <img src={piece.text} style={{maxWidth:"80vw"}}/>
                         }
                     </div>
 

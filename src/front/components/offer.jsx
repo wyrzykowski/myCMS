@@ -32,7 +32,7 @@ class Offer extends Component {
     }
 
     return (
-      !this.state.content ?  " aa" :
+      !this.state.content ?  "" :
       <div   className="container-fluid"   style={style}>
         <div className="row" id="offer" >
 
