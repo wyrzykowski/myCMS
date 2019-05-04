@@ -9,5 +9,10 @@ export function saveSubpage(subpage,name) {
     const body = { ...subpage };
     return http.patch(`/edit/${name}`, body);
   }
-  return http.post(`/${name}`, subpage); // create new move
+  const dataToCreateSubPage = {
+    page : name,
+    ...subpage
+  };
+  console.log(dataToCreateSubPage);
+  return http.post(`/subpage`, dataToCreateSubPage); // create new move
 }
