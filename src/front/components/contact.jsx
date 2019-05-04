@@ -28,9 +28,7 @@ class Contact extends Component {
     const style={
       minHeight:window.innerHeight-this.props.height,
       background: `url(${this.state.background})  no-repeat left center fixed `,
-
-
-    }
+    };
     return (
       <div  className="container-fluid"  style={style}>
         <div className={"row"}>
