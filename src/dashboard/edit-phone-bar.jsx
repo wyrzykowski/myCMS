@@ -27,17 +27,21 @@ class EditPhoneBar extends Form {
   }
 
   async getPhoneBar() {
-    //Get main menu name
-    const { data } = await getSubpage('phone_bar');
+    try {
+      //Get main menu name
+      const { data } = await getSubpage('phone_bar');
 
-    const pageId = data[0]._id;
-    const content = data[0].block[0].content;
-    this.setState({
-      data: {
-        ...this.state.data,
-        phoneBar: content,
-      }, pageId
-    })}
+      const pageId = data[0]._id;
+      const content = data[0].block[0].content;
+      this.setState({
+        data: {
+          ...this.state.data,
+          phoneBar: content,
+        }, pageId
+      })
+    }catch(e){
+      toast.error("Cant't load phone bar data")
+    }}
 
 
   doSubmit = async () => {

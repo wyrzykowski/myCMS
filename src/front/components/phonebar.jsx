@@ -7,9 +7,12 @@ class Phonebar extends Component {
     };
 
     async componentDidMount() {
-        const {data} = await getSubpage('phone_bar');
-
-        this.setState({phoneBar:data[0].block[0].content});
+        try {
+            const { data } = await getSubpage('phone_bar');
+            this.setState({ phoneBar: data[0].block[0].content });
+        }catch(e){
+            console.log("error reading phone bar")
+        }
     }
     render() {
 
