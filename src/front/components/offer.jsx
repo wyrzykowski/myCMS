@@ -28,6 +28,8 @@ class Offer extends Component {
     const style={
       backgroundImage: `url(${this.state.background})`,
       minHeight:window.innerHeight-this.props.height,
+      backgroundSize:"cover",
+      backgroundRepeat:"no-repeat",
     };
 
 

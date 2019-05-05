@@ -100,7 +100,7 @@ class EditMainMenu extends Form {
         }
       });
     }catch(e){
-      toast.error("Cannot get Data!, please reload page.")
+      toast.error("Cannot get Data! please reload page.")
     }
   }
 

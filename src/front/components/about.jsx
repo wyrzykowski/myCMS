@@ -25,26 +25,18 @@ async componentDidMount() {
 const style={
   backgroundImage: `url(${this.state.background})`,
   minHeight:window.innerHeight-this.props.height
-}
+};
     return (
-      <div className="container-fluid"   style={style}>
-        <div className="row" >
+      <div className="container-fluid" style={style}>
 
-                    <div className='col-xl-6 col-md-12 h5'>
-                      {
-                        !this.state.content ?  " " :
-                          <div   className="container-fluid"   style={style}>
-                            <div className="row" id="offer" >
-
-                              <div className="col-md-6 col-lg-7 col-xl-7 col-sm-12">
-                              </div>
-                              <div dangerouslySetInnerHTML={{__html:  draftToHtml(this.state.content) }} />
-                            </div>
-
-                          </div>
-                      }
-                    </div>
+        <div className="row" id="about" >
+          {!this.state.content ? "" :
+            <div className="col-md-6 col-lg-7 col-xl-7 col-sm-12 h5" dangerouslySetInnerHTML={{ __html: draftToHtml(this.state.content) }}/>
+          }
+          <div className="col-md-6 col-lg-7 col-xl-7 col-sm-12">
+          </div>
         </div>
+
       </div>
     );
   }
