@@ -29,7 +29,7 @@ class Contact extends Component {
       minHeight:window.innerHeight-this.props.height,
       background: `url(${this.state.background})  no-repeat left center fixed `,
       backgroundSize:"cover",
-      backgroundRepeat:"no-repeat",
+      backgroundRepeat:"no-repeat"
     };
     return (
       <div  className="container-fluid"  style={style}>

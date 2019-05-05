@@ -24,7 +24,9 @@ async componentDidMount() {
   render() {
 const style={
   backgroundImage: `url(${this.state.background})`,
-  minHeight:window.innerHeight-this.props.height
+  minHeight:window.innerHeight-this.props.height,
+  backgroundSize:"cover",
+  backgroundRepeat:"no-repeat"
 };
     return (
       <div className="container-fluid" style={style}>
