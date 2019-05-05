@@ -51,7 +51,7 @@ class Dashboard extends Component {
         <div className="container-fluid">
           <div className="row">
             <div
-              className="pt-4 pb-2 mb-3">
+              className="dashboard-main-nav">
             <Nav companyName={this.state.companyName}/>
             </div>
           </div>

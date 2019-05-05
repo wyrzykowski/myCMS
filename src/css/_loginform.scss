@@ -1,30 +1,62 @@
-.login-form-body{
-  background-color: rgba(177, 229, 250, 0.58);
-  height: 100vh;
-}
-.login-form-container{
-  background-color: #ffffff;
-  padding:2vw;
-  position: relative;
-  top:20vh;
-  margin: auto;
-  height: 50Vh;
-  width: 30vw;
-  box-shadow: 3px 3px 5px #CCCCCC;
-  border: 1px solid #DDDDDD;
+@media (min-width: 100px) {
+  .login-form-container {
+    background-color: #ffffff;
+    padding: 2vw;
+    position: relative;
+    top: 20vh;
+    margin: auto;
+    height: 50Vh;
+    width: 90vw;
+    box-shadow: 3px 3px 5px #CCCCCC;
+    border: 1px solid #DDDDDD;
 
-  h1{
-    padding-top: 1vh;
-    text-align: center;
-    font-size: 1.5vw;
-  }
-  .login-form-button{
-    padding-top: 1vh;
-    text-align: center;
-    button{
-      width: 80%;
+    h1 {
+      padding-top: 1vh;
+      text-align: center;
+      font-size: 3.5vw;
+    }
+
+    .login-form-button {
+      padding-top: 1vh;
+      text-align: center;
+
+      button {
+        width: 80%;
+      }
     }
   }
 }
 
+.login-form-body{
+  background-color: rgba(177, 229, 250, 0.58);
+  height: 100vh;
+}
+@media (min-width: 900px) {
+  .login-form-container {
+    background-color: #ffffff;
+    padding: 2vw;
+    position: relative;
+    top: 20vh;
+    margin: auto;
+    height: 50Vh;
+    width: 30vw;
+    box-shadow: 3px 3px 5px #CCCCCC;
+    border: 1px solid #DDDDDD;
+
+    h1 {
+      padding-top: 1vh;
+      text-align: center;
+      font-size: 1.5vw;
+    }
+
+    .login-form-button {
+      padding-top: 1vh;
+      text-align: center;
+
+      button {
+        width: 80%;
+      }
+    }
+  }
+}
 

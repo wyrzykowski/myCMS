@@ -71,3 +71,15 @@ body{
   transform: translate(-50%, -50%);
   text-align: center;
 }
+
+@media (min-width:100px){
+  .dashboard-main-nav{
+    margin-top:70px;
+  }
+}
+
+@media (min-width:900px){
+  .dashboard-main-nav{
+    margin-top:2.5vw;
+  }
+}
