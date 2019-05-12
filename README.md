@@ -1,5 +1,10 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+## Demo
+1.go to: http://mycms.eu-4.evennode.com/dashboard
+2. Login with credentials:
+login: admin@admin.pl
+password: admin12345
+3. Result of editing page are here: http://mycms.eu-4.evennode.com/home
 ## Available Scripts
 
 In the project directory, you can run:
